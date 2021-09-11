@@ -15,8 +15,8 @@ import (
 type Payload struct {
 	Longitude *float32   `json:"long"`
 	Latitude  *float32   `json:"lat"`
-	Heading   *int       `json:"hdg"`
-	DoorState *int       `json:"drst"`
+	Heading   *int32     `json:"hdg"`
+	DoorState *int32     `json:"drst"`
 	Timestamp *time.Time `json:"tst"`
 	Speed     *float32   `json:"spd"`
 }
