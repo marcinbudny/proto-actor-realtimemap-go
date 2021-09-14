@@ -13,12 +13,12 @@ import (
 )
 
 type Payload struct {
-	Longitude *float32   `json:"long"`
-	Latitude  *float32   `json:"lat"`
+	Longitude *float64   `json:"long"`
+	Latitude  *float64   `json:"lat"`
 	Heading   *int32     `json:"hdg"`
 	DoorState *int32     `json:"drst"`
 	Timestamp *time.Time `json:"tst"`
-	Speed     *float32   `json:"spd"`
+	Speed     *float64   `json:"spd"`
 }
 
 func (p *Payload) HasValidPosition() bool {
@@ -47,8 +47,8 @@ func ConsumeVehicleEvents(onEvent func(*Event), ctx context.Context) <-chan bool
 			if err := json.Unmarshal(msg.Payload(), &event); err != nil {
 				fmt.Printf("Error unmarshalling json %v", err)
 			} else {
-				event.VehicleId = topicParts[8]
 				event.OperatorId = topicParts[7]
+				event.VehicleId = topicParts[7] + "." + topicParts[8]
 				onEvent(&event)
 			}
 

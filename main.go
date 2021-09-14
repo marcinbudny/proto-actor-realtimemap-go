@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"os"
 	"os/signal"
+	"time"
 
 	"github.com/marcinbudny/realtimemap-go/contract"
 	httpapi "github.com/marcinbudny/realtimemap-go/internal/api"
@@ -17,15 +18,31 @@ func main() {
 	ctx, cancel := context.WithCancel(context.Background())
 	stopOnSignals(cancel)
 
-	cluster, _ := protocluster.StartNode()
+	cluster := protocluster.StartNode()
+	time.Sleep(2 * time.Second)
+
 	api := httpapi.NewHttpApi(ctx)
 	httpDone := api.ListenAndServe()
 
-	ingressDone := ingress.ConsumeVehicleEvents(func(event *ingress.Event) {
-		hubPosition := MapToHubPosition(event)
-		if hubPosition != nil {
-			api.Hub.SendPosition(hubPosition)
+	batchingChan := make(chan *grains.Position, 100)
+	go func() {
+		batch := make([]*contract.Position, 0, 10)
+		for pos := range batchingChan {
+			batch = append(batch, MapToHubPosition(pos))
+			if len(batch) >= 10 {
+				api.Hub.SendPositionBatch(&contract.PositionBatch{Positions: batch})
+				batch = batch[:0]
+			}
 		}
+	}()
+
+	subscription := cluster.ActorSystem.EventStream.Subscribe(func(event interface{}) {
+		if pos, ok := event.(*grains.Position); ok {
+			batchingChan <- pos
+		}
+	})
+
+	ingressDone := ingress.ConsumeVehicleEvents(func(event *ingress.Event) {
 		position := MapToPosition(event)
 		if position != nil {
 			vehicleGrainClient := grains.GetVehicleGrainClient(cluster, position.VehicleId)
@@ -35,6 +52,8 @@ func main() {
 
 	<-ingressDone
 	<-httpDone
+	cluster.ActorSystem.EventStream.Unsubscribe(subscription)
+	close(batchingChan)
 	cluster.Shutdown(true)
 }
 
@@ -67,6 +86,7 @@ func MapToPosition(e *ingress.Event) *grains.Position {
 
 	return &grains.Position{
 		VehicleId: e.VehicleId,
+		OrgId:     e.OperatorId,
 		Latitude:  *payload.Latitude,
 		Longitude: *payload.Longitude,
 		Heading:   *payload.Heading,
@@ -75,29 +95,14 @@ func MapToPosition(e *ingress.Event) *grains.Position {
 	}
 }
 
-func MapToHubPosition(e *ingress.Event) *contract.Position {
-	var payload *ingress.Payload
-
-	if e.VehiclePosition != nil {
-		payload = e.VehiclePosition
-	} else if e.DoorOpen != nil {
-		payload = e.DoorOpen
-	} else if e.DoorClosed != nil {
-		payload = e.DoorClosed
-	} else {
-		return nil
-	}
-
-	if !payload.HasValidPosition() {
-		return nil
-	}
-
+func MapToHubPosition(p *grains.Position) *contract.Position {
 	return &contract.Position{
-		VehicleId: e.VehicleId,
-		Latitude:  *payload.Latitude,
-		Longitude: *payload.Longitude,
-		Heading:   *payload.Heading,
-		Timestamp: (*payload.Timestamp).UnixMilli(),
-		Speed:     *payload.Speed,
+		VehicleId: p.VehicleId,
+		OrgId:     p.OrgId,
+		Latitude:  p.Latitude,
+		Longitude: p.Longitude,
+		Heading:   p.Heading,
+		Timestamp: p.Timestamp,
+		Speed:     p.Speed,
 	}
 }

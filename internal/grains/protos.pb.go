@@ -25,20 +25,20 @@ var _ = math.Inf
 // proto package needs to be updated.
 const _ = proto.GoGoProtoPackageIsVersion3 // please upgrade the proto package
 
-type Noop struct {
+type Empty struct {
 }
 
-func (m *Noop) Reset()      { *m = Noop{} }
-func (*Noop) ProtoMessage() {}
-func (*Noop) Descriptor() ([]byte, []int) {
+func (m *Empty) Reset()      { *m = Empty{} }
+func (*Empty) ProtoMessage() {}
+func (*Empty) Descriptor() ([]byte, []int) {
 	return fileDescriptor_5da3cbeb884d181c, []int{0}
 }
-func (m *Noop) XXX_Unmarshal(b []byte) error {
+func (m *Empty) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
 }
-func (m *Noop) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+func (m *Empty) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 	if deterministic {
-		return xxx_messageInfo_Noop.Marshal(b, m, deterministic)
+		return xxx_messageInfo_Empty.Marshal(b, m, deterministic)
 	} else {
 		b = b[:cap(b)]
 		n, err := m.MarshalToSizedBuffer(b)
@@ -48,26 +48,27 @@ func (m *Noop) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
 		return b[:n], nil
 	}
 }
-func (m *Noop) XXX_Merge(src proto.Message) {
-	xxx_messageInfo_Noop.Merge(m, src)
+func (m *Empty) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Empty.Merge(m, src)
 }
-func (m *Noop) XXX_Size() int {
+func (m *Empty) XXX_Size() int {
 	return m.Size()
 }
-func (m *Noop) XXX_DiscardUnknown() {
-	xxx_messageInfo_Noop.DiscardUnknown(m)
+func (m *Empty) XXX_DiscardUnknown() {
+	xxx_messageInfo_Empty.DiscardUnknown(m)
 }
 
-var xxx_messageInfo_Noop proto.InternalMessageInfo
+var xxx_messageInfo_Empty proto.InternalMessageInfo
 
 type Position struct {
 	VehicleId string  `protobuf:"bytes,1,opt,name=vehicle_id,json=vehicleId,proto3" json:"vehicle_id,omitempty"`
-	Latitude  float32 `protobuf:"fixed32,2,opt,name=latitude,proto3" json:"latitude,omitempty"`
-	Longitude float32 `protobuf:"fixed32,3,opt,name=longitude,proto3" json:"longitude,omitempty"`
-	Timestamp int64   `protobuf:"varint,4,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
-	Heading   int32   `protobuf:"varint,5,opt,name=heading,proto3" json:"heading,omitempty"`
-	Speed     float32 `protobuf:"fixed32,6,opt,name=speed,proto3" json:"speed,omitempty"`
-	DoorsOpen bool    `protobuf:"varint,7,opt,name=doorsOpen,proto3" json:"doorsOpen,omitempty"`
+	OrgId     string  `protobuf:"bytes,2,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	Timestamp int64   `protobuf:"varint,3,opt,name=timestamp,proto3" json:"timestamp,omitempty"`
+	Longitude float64 `protobuf:"fixed64,4,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	Latitude  float64 `protobuf:"fixed64,5,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	Heading   int32   `protobuf:"varint,6,opt,name=heading,proto3" json:"heading,omitempty"`
+	DoorsOpen bool    `protobuf:"varint,7,opt,name=doors_open,json=doorsOpen,proto3" json:"doors_open,omitempty"`
+	Speed     float64 `protobuf:"fixed64,8,opt,name=speed,proto3" json:"speed,omitempty"`
 }
 
 func (m *Position) Reset()      { *m = Position{} }
@@ -109,23 +110,30 @@ func (m *Position) GetVehicleId() string {
 	return ""
 }
 
-func (m *Position) GetLatitude() float32 {
+func (m *Position) GetOrgId() string {
 	if m != nil {
-		return m.Latitude
+		return m.OrgId
+	}
+	return ""
+}
+
+func (m *Position) GetTimestamp() int64 {
+	if m != nil {
+		return m.Timestamp
 	}
 	return 0
 }
 
-func (m *Position) GetLongitude() float32 {
+func (m *Position) GetLongitude() float64 {
 	if m != nil {
 		return m.Longitude
 	}
 	return 0
 }
 
-func (m *Position) GetTimestamp() int64 {
+func (m *Position) GetLatitude() float64 {
 	if m != nil {
-		return m.Timestamp
+		return m.Latitude
 	}
 	return 0
 }
@@ -137,13 +145,6 @@ func (m *Position) GetHeading() int32 {
 	return 0
 }
 
-func (m *Position) GetSpeed() float32 {
-	if m != nil {
-		return m.Speed
-	}
-	return 0
-}
-
 func (m *Position) GetDoorsOpen() bool {
 	if m != nil {
 		return m.DoorsOpen
@@ -151,43 +152,137 @@ func (m *Position) GetDoorsOpen() bool {
 	return false
 }
 
+func (m *Position) GetSpeed() float64 {
+	if m != nil {
+		return m.Speed
+	}
+	return 0
+}
+
+type GetPositionsHistoryRequest struct {
+}
+
+func (m *GetPositionsHistoryRequest) Reset()      { *m = GetPositionsHistoryRequest{} }
+func (*GetPositionsHistoryRequest) ProtoMessage() {}
+func (*GetPositionsHistoryRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_5da3cbeb884d181c, []int{2}
+}
+func (m *GetPositionsHistoryRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetPositionsHistoryRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetPositionsHistoryRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetPositionsHistoryRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetPositionsHistoryRequest.Merge(m, src)
+}
+func (m *GetPositionsHistoryRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetPositionsHistoryRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetPositionsHistoryRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetPositionsHistoryRequest proto.InternalMessageInfo
+
+type PositionBatch struct {
+	Positions []*Position `protobuf:"bytes,1,rep,name=positions,proto3" json:"positions,omitempty"`
+}
+
+func (m *PositionBatch) Reset()      { *m = PositionBatch{} }
+func (*PositionBatch) ProtoMessage() {}
+func (*PositionBatch) Descriptor() ([]byte, []int) {
+	return fileDescriptor_5da3cbeb884d181c, []int{3}
+}
+func (m *PositionBatch) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *PositionBatch) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_PositionBatch.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *PositionBatch) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_PositionBatch.Merge(m, src)
+}
+func (m *PositionBatch) XXX_Size() int {
+	return m.Size()
+}
+func (m *PositionBatch) XXX_DiscardUnknown() {
+	xxx_messageInfo_PositionBatch.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_PositionBatch proto.InternalMessageInfo
+
+func (m *PositionBatch) GetPositions() []*Position {
+	if m != nil {
+		return m.Positions
+	}
+	return nil
+}
+
 func init() {
-	proto.RegisterType((*Noop)(nil), "grains.Noop")
+	proto.RegisterType((*Empty)(nil), "grains.Empty")
 	proto.RegisterType((*Position)(nil), "grains.Position")
+	proto.RegisterType((*GetPositionsHistoryRequest)(nil), "grains.GetPositionsHistoryRequest")
+	proto.RegisterType((*PositionBatch)(nil), "grains.PositionBatch")
 }
 
 func init() { proto.RegisterFile("protos.proto", fileDescriptor_5da3cbeb884d181c) }
 
 var fileDescriptor_5da3cbeb884d181c = []byte{
-	// 284 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x44, 0x90, 0xbf, 0x4e, 0xf3, 0x30,
-	0x14, 0xc5, 0x7d, 0xfb, 0x27, 0x6d, 0xaf, 0x3a, 0x7c, 0xb2, 0xbe, 0xc1, 0xaa, 0xe0, 0x2a, 0xea,
-	0x94, 0x29, 0x03, 0xb0, 0xb0, 0xb2, 0xb1, 0x50, 0x94, 0x81, 0x15, 0x05, 0x6c, 0xb5, 0x96, 0x5a,
-	0x3b, 0xaa, 0x0d, 0x33, 0x8f, 0xc0, 0x63, 0xf0, 0x28, 0x6c, 0x74, 0xec, 0x48, 0x9c, 0x85, 0xb1,
-	0x8f, 0x80, 0x9a, 0x90, 0x66, 0xba, 0x3a, 0xbf, 0x23, 0x1d, 0xdd, 0x73, 0x70, 0x5a, 0x6c, 0xad,
-	0xb7, 0x2e, 0xad, 0x0f, 0x8f, 0x96, 0xdb, 0x5c, 0x1b, 0x37, 0x8f, 0x70, 0x70, 0x67, 0x6d, 0x31,
-	0xff, 0x02, 0x1c, 0xdf, 0x5b, 0xa7, 0xbd, 0xb6, 0x86, 0x9f, 0x23, 0xbe, 0xaa, 0x95, 0x7e, 0x5e,
-	0xab, 0x47, 0x2d, 0x05, 0xc4, 0x90, 0x4c, 0xb2, 0xc9, 0x1f, 0xb9, 0x95, 0x7c, 0x86, 0xe3, 0x75,
-	0xee, 0xb5, 0x7f, 0x91, 0x4a, 0xf4, 0x62, 0x48, 0x7a, 0xd9, 0x49, 0xf3, 0x33, 0x9c, 0xac, 0xad,
-	0x59, 0x36, 0x66, 0xbf, 0x36, 0x3b, 0x70, 0x74, 0xbd, 0xde, 0x28, 0xe7, 0xf3, 0x4d, 0x21, 0x06,
-	0x31, 0x24, 0xfd, 0xac, 0x03, 0x5c, 0xe0, 0x68, 0xa5, 0x72, 0xa9, 0xcd, 0x52, 0x0c, 0x63, 0x48,
-	0x86, 0x59, 0x2b, 0xf9, 0x7f, 0x1c, 0xba, 0x42, 0x29, 0x29, 0xa2, 0x3a, 0xb1, 0x11, 0xc7, 0x34,
-	0x69, 0xed, 0xd6, 0x2d, 0x0a, 0x65, 0xc4, 0x28, 0x86, 0x64, 0x9c, 0x75, 0xe0, 0xe2, 0x1a, 0x47,
-	0x0f, 0xcd, 0xcb, 0x3c, 0x45, 0x5c, 0x98, 0x53, 0xbb, 0x7f, 0x69, 0xd3, 0x3d, 0x6d, 0xc9, 0x6c,
-	0xda, 0x92, 0x7a, 0x0a, 0x76, 0x73, 0xb5, 0x2b, 0x89, 0xed, 0x4b, 0x62, 0x87, 0x92, 0xe0, 0x2d,
-	0x10, 0x7c, 0x04, 0x82, 0xcf, 0x40, 0xb0, 0x0b, 0x04, 0xdf, 0x81, 0xe0, 0x27, 0x10, 0x3b, 0x04,
-	0x82, 0xf7, 0x8a, 0xd8, 0xae, 0x22, 0xb6, 0xaf, 0x88, 0x3d, 0x45, 0xf5, 0xb2, 0x97, 0xbf, 0x01,
-	0x00, 0x00, 0xff, 0xff, 0x93, 0x0d, 0xa9, 0xde, 0x69, 0x01, 0x00, 0x00,
+	// 393 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x92, 0xcf, 0xaa, 0xd3, 0x40,
+	0x14, 0xc6, 0x73, 0xac, 0xf9, 0x77, 0xbc, 0x17, 0x64, 0xf4, 0xc2, 0x10, 0xae, 0x43, 0xc8, 0x2a,
+	0x1b, 0x23, 0x54, 0xb7, 0x22, 0x14, 0x44, 0xbb, 0x6a, 0xc9, 0xc2, 0x6d, 0x89, 0xcd, 0x90, 0x0e,
+	0xb4, 0x33, 0x31, 0x33, 0x15, 0xea, 0xca, 0x07, 0x70, 0xe1, 0x63, 0xf8, 0x28, 0x2e, 0xbb, 0xec,
+	0xd2, 0xa6, 0x0b, 0x5d, 0xf6, 0x11, 0xa4, 0x13, 0xd3, 0x82, 0x7f, 0x16, 0xae, 0xc2, 0xf9, 0xbe,
+	0x2f, 0x87, 0xdf, 0x7c, 0x33, 0x78, 0x55, 0x37, 0xca, 0x28, 0x9d, 0xd9, 0x0f, 0xf1, 0xaa, 0xa6,
+	0x10, 0x52, 0x27, 0x3e, 0xba, 0x2f, 0x57, 0xb5, 0xd9, 0x24, 0xdf, 0x01, 0x83, 0xa9, 0xd2, 0xc2,
+	0x08, 0x25, 0xc9, 0x23, 0xc4, 0xf7, 0x7c, 0x21, 0xe6, 0x4b, 0x3e, 0x13, 0x25, 0x85, 0x18, 0xd2,
+	0x30, 0x0f, 0x7f, 0x29, 0xe3, 0x92, 0xdc, 0xa0, 0xa7, 0x9a, 0xea, 0x64, 0xdd, 0xb1, 0x96, 0xab,
+	0x9a, 0x6a, 0x5c, 0x92, 0x5b, 0x0c, 0x8d, 0x58, 0x71, 0x6d, 0x8a, 0x55, 0x4d, 0x07, 0x31, 0xa4,
+	0x83, 0xfc, 0x22, 0x9c, 0xdc, 0xa5, 0x92, 0x95, 0x30, 0xeb, 0x92, 0xd3, 0xbb, 0x31, 0xa4, 0x90,
+	0x5f, 0x04, 0x12, 0x61, 0xb0, 0x2c, 0x4c, 0x67, 0xba, 0xd6, 0x3c, 0xcf, 0x84, 0xa2, 0xbf, 0xe0,
+	0x45, 0x29, 0x64, 0x45, 0xbd, 0x18, 0x52, 0x37, 0xef, 0xc7, 0x13, 0x67, 0xa9, 0x54, 0xa3, 0x67,
+	0xaa, 0xe6, 0x92, 0xfa, 0x31, 0xa4, 0x41, 0x1e, 0x5a, 0x65, 0x52, 0x73, 0x49, 0x1e, 0xa2, 0xab,
+	0x6b, 0xce, 0x4b, 0x1a, 0xd8, 0x8d, 0xdd, 0x90, 0xdc, 0x62, 0xf4, 0x8a, 0x9b, 0xfe, 0xac, 0xfa,
+	0xb5, 0xd0, 0x46, 0x35, 0x9b, 0x9c, 0xbf, 0x5b, 0x73, 0x6d, 0x92, 0x17, 0x78, 0xdd, 0x5b, 0xa3,
+	0xc2, 0xcc, 0x17, 0x24, 0xc3, 0xb0, 0xee, 0xb3, 0x14, 0xe2, 0x41, 0x7a, 0x6f, 0x78, 0x3f, 0xeb,
+	0xda, 0xcb, 0xfa, 0x64, 0x7e, 0x89, 0x0c, 0x3f, 0x01, 0xfa, 0x6f, 0xba, 0xaa, 0xc8, 0x13, 0xc4,
+	0x89, 0x3c, 0xb7, 0xfa, 0xc7, 0x6f, 0xd1, 0x75, 0xaf, 0x74, 0x77, 0xe0, 0x90, 0x29, 0x3e, 0xf8,
+	0x0b, 0x1b, 0x49, 0xfa, 0xdc, 0xbf, 0xc1, 0xa3, 0x9b, 0xdf, 0xb7, 0x5b, 0xfc, 0xe1, 0x73, 0xbc,
+	0x9a, 0x34, 0x55, 0x21, 0xc5, 0x87, 0xc2, 0x42, 0x3c, 0xfe, 0x2f, 0xa4, 0xd1, 0xb3, 0xed, 0x9e,
+	0x39, 0xbb, 0x3d, 0x73, 0x8e, 0x7b, 0x06, 0x1f, 0x5b, 0x06, 0x5f, 0x5a, 0x06, 0x5f, 0x5b, 0x06,
+	0xdb, 0x96, 0xc1, 0xb7, 0x96, 0xc1, 0x8f, 0x96, 0x39, 0xc7, 0x96, 0xc1, 0xe7, 0x03, 0x73, 0xb6,
+	0x07, 0xe6, 0xec, 0x0e, 0xcc, 0x79, 0xeb, 0xd9, 0x47, 0xf6, 0xf4, 0x67, 0x00, 0x00, 0x00, 0xff,
+	0xff, 0x5a, 0x15, 0xf1, 0x9e, 0x74, 0x02, 0x00, 0x00,
 }
 
-func (this *Noop) Equal(that interface{}) bool {
+func (this *Empty) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
 	}
 
-	that1, ok := that.(*Noop)
+	that1, ok := that.(*Empty)
 	if !ok {
-		that2, ok := that.(Noop)
+		that2, ok := that.(Empty)
 		if ok {
 			that1 = &that2
 		} else {
@@ -223,32 +318,85 @@ func (this *Position) Equal(that interface{}) bool {
 	if this.VehicleId != that1.VehicleId {
 		return false
 	}
-	if this.Latitude != that1.Latitude {
-		return false
-	}
-	if this.Longitude != that1.Longitude {
+	if this.OrgId != that1.OrgId {
 		return false
 	}
 	if this.Timestamp != that1.Timestamp {
 		return false
 	}
-	if this.Heading != that1.Heading {
+	if this.Longitude != that1.Longitude {
 		return false
 	}
-	if this.Speed != that1.Speed {
+	if this.Latitude != that1.Latitude {
+		return false
+	}
+	if this.Heading != that1.Heading {
 		return false
 	}
 	if this.DoorsOpen != that1.DoorsOpen {
 		return false
 	}
+	if this.Speed != that1.Speed {
+		return false
+	}
 	return true
 }
-func (this *Noop) GoString() string {
+func (this *GetPositionsHistoryRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*GetPositionsHistoryRequest)
+	if !ok {
+		that2, ok := that.(GetPositionsHistoryRequest)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	return true
+}
+func (this *PositionBatch) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*PositionBatch)
+	if !ok {
+		that2, ok := that.(PositionBatch)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if len(this.Positions) != len(that1.Positions) {
+		return false
+	}
+	for i := range this.Positions {
+		if !this.Positions[i].Equal(that1.Positions[i]) {
+			return false
+		}
+	}
+	return true
+}
+func (this *Empty) GoString() string {
 	if this == nil {
 		return "nil"
 	}
 	s := make([]string, 0, 4)
-	s = append(s, "&grains.Noop{")
+	s = append(s, "&grains.Empty{")
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -256,15 +404,37 @@ func (this *Position) GoString() string {
 	if this == nil {
 		return "nil"
 	}
-	s := make([]string, 0, 11)
+	s := make([]string, 0, 12)
 	s = append(s, "&grains.Position{")
 	s = append(s, "VehicleId: "+fmt.Sprintf("%#v", this.VehicleId)+",\n")
-	s = append(s, "Latitude: "+fmt.Sprintf("%#v", this.Latitude)+",\n")
-	s = append(s, "Longitude: "+fmt.Sprintf("%#v", this.Longitude)+",\n")
+	s = append(s, "OrgId: "+fmt.Sprintf("%#v", this.OrgId)+",\n")
 	s = append(s, "Timestamp: "+fmt.Sprintf("%#v", this.Timestamp)+",\n")
+	s = append(s, "Longitude: "+fmt.Sprintf("%#v", this.Longitude)+",\n")
+	s = append(s, "Latitude: "+fmt.Sprintf("%#v", this.Latitude)+",\n")
 	s = append(s, "Heading: "+fmt.Sprintf("%#v", this.Heading)+",\n")
-	s = append(s, "Speed: "+fmt.Sprintf("%#v", this.Speed)+",\n")
 	s = append(s, "DoorsOpen: "+fmt.Sprintf("%#v", this.DoorsOpen)+",\n")
+	s = append(s, "Speed: "+fmt.Sprintf("%#v", this.Speed)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *GetPositionsHistoryRequest) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 4)
+	s = append(s, "&grains.GetPositionsHistoryRequest{")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *PositionBatch) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&grains.PositionBatch{")
+	if this.Positions != nil {
+		s = append(s, "Positions: "+fmt.Sprintf("%#v", this.Positions)+",\n")
+	}
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
@@ -276,7 +446,7 @@ func valueToGoStringProtos(v interface{}, typ string) string {
 	pv := reflect.Indirect(rv).Interface()
 	return fmt.Sprintf("func(v %v) *%v { return &v } ( %#v )", typ, typ, pv)
 }
-func (m *Noop) Marshal() (dAtA []byte, err error) {
+func (m *Empty) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
 	n, err := m.MarshalToSizedBuffer(dAtA[:size])
@@ -286,12 +456,12 @@ func (m *Noop) Marshal() (dAtA []byte, err error) {
 	return dAtA[:n], nil
 }
 
-func (m *Noop) MarshalTo(dAtA []byte) (int, error) {
+func (m *Empty) MarshalTo(dAtA []byte) (int, error) {
 	size := m.Size()
 	return m.MarshalToSizedBuffer(dAtA[:size])
 }
 
-func (m *Noop) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+func (m *Empty) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	i := len(dAtA)
 	_ = i
 	var l int
@@ -319,6 +489,12 @@ func (m *Position) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	_ = i
 	var l int
 	_ = l
+	if m.Speed != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Speed))))
+		i--
+		dAtA[i] = 0x41
+	}
 	if m.DoorsOpen {
 		i--
 		if m.DoorsOpen {
@@ -329,33 +505,34 @@ func (m *Position) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i--
 		dAtA[i] = 0x38
 	}
-	if m.Speed != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.Speed))))
-		i--
-		dAtA[i] = 0x35
-	}
 	if m.Heading != 0 {
 		i = encodeVarintProtos(dAtA, i, uint64(m.Heading))
 		i--
-		dAtA[i] = 0x28
+		dAtA[i] = 0x30
+	}
+	if m.Latitude != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Latitude))))
+		i--
+		dAtA[i] = 0x29
+	}
+	if m.Longitude != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Longitude))))
+		i--
+		dAtA[i] = 0x21
 	}
 	if m.Timestamp != 0 {
 		i = encodeVarintProtos(dAtA, i, uint64(m.Timestamp))
 		i--
-		dAtA[i] = 0x20
+		dAtA[i] = 0x18
 	}
-	if m.Longitude != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.Longitude))))
+	if len(m.OrgId) > 0 {
+		i -= len(m.OrgId)
+		copy(dAtA[i:], m.OrgId)
+		i = encodeVarintProtos(dAtA, i, uint64(len(m.OrgId)))
 		i--
-		dAtA[i] = 0x1d
-	}
-	if m.Latitude != 0 {
-		i -= 4
-		encoding_binary.LittleEndian.PutUint32(dAtA[i:], uint32(math.Float32bits(float32(m.Latitude))))
-		i--
-		dAtA[i] = 0x15
+		dAtA[i] = 0x12
 	}
 	if len(m.VehicleId) > 0 {
 		i -= len(m.VehicleId)
@@ -363,6 +540,66 @@ func (m *Position) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		i = encodeVarintProtos(dAtA, i, uint64(len(m.VehicleId)))
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetPositionsHistoryRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetPositionsHistoryRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetPositionsHistoryRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	return len(dAtA) - i, nil
+}
+
+func (m *PositionBatch) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *PositionBatch) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *PositionBatch) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Positions) > 0 {
+		for iNdEx := len(m.Positions) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Positions[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintProtos(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
 	}
 	return len(dAtA) - i, nil
 }
@@ -378,7 +615,7 @@ func encodeVarintProtos(dAtA []byte, offset int, v uint64) int {
 	dAtA[offset] = uint8(v)
 	return base
 }
-func (m *Noop) Size() (n int) {
+func (m *Empty) Size() (n int) {
 	if m == nil {
 		return 0
 	}
@@ -397,23 +634,51 @@ func (m *Position) Size() (n int) {
 	if l > 0 {
 		n += 1 + l + sovProtos(uint64(l))
 	}
-	if m.Latitude != 0 {
-		n += 5
-	}
-	if m.Longitude != 0 {
-		n += 5
+	l = len(m.OrgId)
+	if l > 0 {
+		n += 1 + l + sovProtos(uint64(l))
 	}
 	if m.Timestamp != 0 {
 		n += 1 + sovProtos(uint64(m.Timestamp))
 	}
+	if m.Longitude != 0 {
+		n += 9
+	}
+	if m.Latitude != 0 {
+		n += 9
+	}
 	if m.Heading != 0 {
 		n += 1 + sovProtos(uint64(m.Heading))
 	}
-	if m.Speed != 0 {
-		n += 5
-	}
 	if m.DoorsOpen {
 		n += 2
+	}
+	if m.Speed != 0 {
+		n += 9
+	}
+	return n
+}
+
+func (m *GetPositionsHistoryRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	return n
+}
+
+func (m *PositionBatch) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Positions) > 0 {
+		for _, e := range m.Positions {
+			l = e.Size()
+			n += 1 + l + sovProtos(uint64(l))
+		}
 	}
 	return n
 }
@@ -424,11 +689,11 @@ func sovProtos(x uint64) (n int) {
 func sozProtos(x uint64) (n int) {
 	return sovProtos(uint64((x << 1) ^ uint64((int64(x) >> 63))))
 }
-func (this *Noop) String() string {
+func (this *Empty) String() string {
 	if this == nil {
 		return "nil"
 	}
-	s := strings.Join([]string{`&Noop{`,
+	s := strings.Join([]string{`&Empty{`,
 		`}`,
 	}, "")
 	return s
@@ -439,12 +704,37 @@ func (this *Position) String() string {
 	}
 	s := strings.Join([]string{`&Position{`,
 		`VehicleId:` + fmt.Sprintf("%v", this.VehicleId) + `,`,
-		`Latitude:` + fmt.Sprintf("%v", this.Latitude) + `,`,
-		`Longitude:` + fmt.Sprintf("%v", this.Longitude) + `,`,
+		`OrgId:` + fmt.Sprintf("%v", this.OrgId) + `,`,
 		`Timestamp:` + fmt.Sprintf("%v", this.Timestamp) + `,`,
+		`Longitude:` + fmt.Sprintf("%v", this.Longitude) + `,`,
+		`Latitude:` + fmt.Sprintf("%v", this.Latitude) + `,`,
 		`Heading:` + fmt.Sprintf("%v", this.Heading) + `,`,
-		`Speed:` + fmt.Sprintf("%v", this.Speed) + `,`,
 		`DoorsOpen:` + fmt.Sprintf("%v", this.DoorsOpen) + `,`,
+		`Speed:` + fmt.Sprintf("%v", this.Speed) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *GetPositionsHistoryRequest) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&GetPositionsHistoryRequest{`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *PositionBatch) String() string {
+	if this == nil {
+		return "nil"
+	}
+	repeatedStringForPositions := "[]*Position{"
+	for _, f := range this.Positions {
+		repeatedStringForPositions += strings.Replace(f.String(), "Position", "Position", 1) + ","
+	}
+	repeatedStringForPositions += "}"
+	s := strings.Join([]string{`&PositionBatch{`,
+		`Positions:` + repeatedStringForPositions + `,`,
 		`}`,
 	}, "")
 	return s
@@ -457,7 +747,7 @@ func valueToStringProtos(v interface{}) string {
 	pv := reflect.Indirect(rv).Interface()
 	return fmt.Sprintf("*%v", pv)
 }
-func (m *Noop) Unmarshal(dAtA []byte) error {
+func (m *Empty) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
 	for iNdEx < l {
@@ -480,10 +770,10 @@ func (m *Noop) Unmarshal(dAtA []byte) error {
 		fieldNum := int32(wire >> 3)
 		wireType := int(wire & 0x7)
 		if wireType == 4 {
-			return fmt.Errorf("proto: Noop: wiretype end group for non-group")
+			return fmt.Errorf("proto: Empty: wiretype end group for non-group")
 		}
 		if fieldNum <= 0 {
-			return fmt.Errorf("proto: Noop: illegal tag %d (wire type %d)", fieldNum, wire)
+			return fmt.Errorf("proto: Empty: illegal tag %d (wire type %d)", fieldNum, wire)
 		}
 		switch fieldNum {
 		default:
@@ -569,28 +859,38 @@ func (m *Position) Unmarshal(dAtA []byte) error {
 			m.VehicleId = string(dAtA[iNdEx:postIndex])
 			iNdEx = postIndex
 		case 2:
-			if wireType != 5 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Latitude", wireType)
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OrgId", wireType)
 			}
-			var v uint32
-			if (iNdEx + 4) > l {
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProtos
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProtos
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if postIndex > l {
 				return io.ErrUnexpectedEOF
 			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.Latitude = float32(math.Float32frombits(v))
+			m.OrgId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
 		case 3:
-			if wireType != 5 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Longitude", wireType)
-			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
-			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.Longitude = float32(math.Float32frombits(v))
-		case 4:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Timestamp", wireType)
 			}
@@ -609,7 +909,29 @@ func (m *Position) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
+		case 4:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Longitude", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.Longitude = float64(math.Float64frombits(v))
 		case 5:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Latitude", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.Latitude = float64(math.Float64frombits(v))
+		case 6:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field Heading", wireType)
 			}
@@ -628,17 +950,6 @@ func (m *Position) Unmarshal(dAtA []byte) error {
 					break
 				}
 			}
-		case 6:
-			if wireType != 5 {
-				return fmt.Errorf("proto: wrong wireType = %d for field Speed", wireType)
-			}
-			var v uint32
-			if (iNdEx + 4) > l {
-				return io.ErrUnexpectedEOF
-			}
-			v = uint32(encoding_binary.LittleEndian.Uint32(dAtA[iNdEx:]))
-			iNdEx += 4
-			m.Speed = float32(math.Float32frombits(v))
 		case 7:
 			if wireType != 0 {
 				return fmt.Errorf("proto: wrong wireType = %d for field DoorsOpen", wireType)
@@ -659,6 +970,151 @@ func (m *Position) Unmarshal(dAtA []byte) error {
 				}
 			}
 			m.DoorsOpen = bool(v != 0)
+		case 8:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Speed", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.Speed = float64(math.Float64frombits(v))
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProtos(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetPositionsHistoryRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProtos
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetPositionsHistoryRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetPositionsHistoryRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProtos(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *PositionBatch) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProtos
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: PositionBatch: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: PositionBatch: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Positions", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProtos
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthProtos
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Positions = append(m.Positions, &Position{})
+			if err := m.Positions[len(m.Positions)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
 		default:
 			iNdEx = preIndex
 			skippy, err := skipProtos(dAtA[iNdEx:])

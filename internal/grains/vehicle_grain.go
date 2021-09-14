@@ -1,26 +1,40 @@
 package grains
 
 import (
-	"fmt"
-
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/cluster"
 )
 
-type VehicleGrain struct {
-	id string
+type vehicleGrain struct {
+	id      string
+	cluster *cluster.Cluster
 }
 
-func (v *VehicleGrain) Init(id string) {
+func CreateVehicleFactory(cluster *cluster.Cluster) func() Vehicle {
+	return func() Vehicle {
+		return &vehicleGrain{cluster: cluster}
+	}
+}
+
+func (v *vehicleGrain) Init(id string) {
 	v.id = id
 }
 
-func (v *VehicleGrain) OnPosition(position *Position, ctx cluster.GrainContext) (*Noop, error) {
+func (v *vehicleGrain) OnPosition(position *Position, ctx cluster.GrainContext) (*Empty, error) {
 
-	fmt.Printf("Vehicle %s received %+v\n", v.id, position)
+	orgClient := GetOrganizationGrainClient(v.cluster, position.OrgId)
+	orgClient.OnPosition(position)
 
-	return &Noop{}, nil
+	// the Go version of proto.actor does not support broadcasting among cluster members yet
+	// TODO: fix this code once it does
+	v.cluster.ActorSystem.EventStream.Publish(position)
+
+	return &Empty{}, nil
 }
 
-func (v *VehicleGrain) Terminate()                       {}
-func (v *VehicleGrain) ReceiveDefault(ctx actor.Context) {}
+func (v *vehicleGrain) GetPositionsHistory(*GetPositionsHistoryRequest, cluster.GrainContext) (*PositionBatch, error) {
+	return &PositionBatch{}, nil
+}
+
+func (v *vehicleGrain) Terminate()                       {}
+func (v *vehicleGrain) ReceiveDefault(ctx actor.Context) {}

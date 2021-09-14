@@ -1,18 +1,31 @@
 syntax = "proto3";
 package grains;
 
-message Noop {}
+message Empty {}
 
 message Position {
     string vehicle_id = 1;
-    float latitude = 2;
-    float longitude = 3;
-    int64 timestamp = 4;
-    int32 heading = 5;
-    float speed = 6;
-    bool doorsOpen = 7;
+    string org_id = 2;
+    int64 timestamp = 3;
+    double longitude = 4;
+    double latitude = 5;
+    int32 heading = 6;
+    bool doors_open = 7;
+    double speed = 8;
+}
+
+message GetPositionsHistoryRequest { }
+
+message PositionBatch {
+    repeated Position positions = 1;
 }
 
 service Vehicle {
-    rpc OnPosition(Position) returns (Noop) {}
+    rpc OnPosition(Position) returns (Empty) {}
+    rpc GetPositionsHistory(GetPositionsHistoryRequest) returns (PositionBatch);
+}
+
+service Organization {
+    rpc OnPosition (Position) returns (Empty);
+    //rpc GetGeofences(GetGeofencesRequest) returns (GetGeofencesResponse);
 }

@@ -34,10 +34,10 @@ func (h *AppHub) OnDisconnected(connectionID string) {
 	fmt.Printf("%s disconnected from hub\n", connectionID)
 }
 
-func (h *AppHub) SendPosition(position *contract.Position) {
-	serialized, _ := json.Marshal(position)
+func (h *AppHub) SendPositionBatch(batch *contract.PositionBatch) {
+	serialized, _ := json.Marshal(batch)
 	if h.initialized {
-		h.Clients().All().Send("position", string(serialized))
+		h.Clients().All().Send("positionBatch", string(serialized))
 	}
 }
 
