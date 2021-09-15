@@ -5,9 +5,12 @@ import (
 	"github.com/AsynkronIT/protoactor-go/cluster"
 )
 
+const MaxPositionHistory = 10
+
 type vehicleGrain struct {
-	id      string
-	cluster *cluster.Cluster
+	id              string
+	positionHistory []*Position
+	cluster         *cluster.Cluster
 }
 
 func CreateVehicleFactory(cluster *cluster.Cluster) func() Vehicle {
@@ -18,9 +21,15 @@ func CreateVehicleFactory(cluster *cluster.Cluster) func() Vehicle {
 
 func (v *vehicleGrain) Init(id string) {
 	v.id = id
+	v.positionHistory = make([]*Position, 0, MaxPositionHistory)
 }
 
 func (v *vehicleGrain) OnPosition(position *Position, ctx cluster.GrainContext) (*Empty, error) {
+
+	if len(v.positionHistory) > MaxPositionHistory {
+		v.positionHistory = v.positionHistory[1:] // TODO: is this memory leak?
+	}
+	v.positionHistory = append(v.positionHistory, position)
 
 	orgClient := GetOrganizationGrainClient(v.cluster, position.OrgId)
 	orgClient.OnPosition(position)
@@ -33,7 +42,7 @@ func (v *vehicleGrain) OnPosition(position *Position, ctx cluster.GrainContext) 
 }
 
 func (v *vehicleGrain) GetPositionsHistory(*GetPositionsHistoryRequest, cluster.GrainContext) (*PositionBatch, error) {
-	return &PositionBatch{}, nil
+	return &PositionBatch{Positions: v.positionHistory}, nil
 }
 
 func (v *vehicleGrain) Terminate()                       {}

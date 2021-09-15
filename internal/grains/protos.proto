@@ -20,6 +20,21 @@ message PositionBatch {
     repeated Position positions = 1;
 }
 
+message GeoPoint {
+    double longitude = 1;
+    double latitude = 2;
+}
+
+message Viewport {
+    GeoPoint south_west = 1;
+    GeoPoint north_east = 2;
+}
+
+message UpdateViewport {
+    Viewport viewport = 1;
+}
+   
+
 service Vehicle {
     rpc OnPosition(Position) returns (Empty) {}
     rpc GetPositionsHistory(GetPositionsHistoryRequest) returns (PositionBatch);

@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"net/http"
 	"time"
+
+	"github.com/AsynkronIT/protoactor-go/actor"
 )
 
 type HttpApi struct {
@@ -13,9 +15,9 @@ type HttpApi struct {
 	ctx    context.Context
 }
 
-func NewHttpApi(ctx context.Context) *HttpApi {
+func NewHttpApi(actorSystem *actor.ActorSystem, ctx context.Context) *HttpApi {
 	router := http.NewServeMux()
-	hub := serveHub(router, ctx)
+	hub := serveHub(router, actorSystem, ctx)
 	serveStaticFiles(router)
 
 	return &HttpApi{

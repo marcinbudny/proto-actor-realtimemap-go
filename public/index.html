@@ -11,15 +11,20 @@
           .withAutomaticReconnect()
           .build();
 
-        connection.on('event', (payload) => {
-          console.log(payload);
-        });
-
-        connection.on('positionBatch', (payload) => {
+        connection.on('positions', (payload) => {
           console.log(payload);
         });
 
         connection.start();
+        setTimeout(() => {
+          connection.invoke(
+            'SetViewport',
+            24.593985,
+            60.103097,
+            25.134473,
+            60.328337
+          );
+        }, 500);
       })();
     </script>
   </body>

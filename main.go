@@ -7,7 +7,6 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/marcinbudny/realtimemap-go/contract"
 	httpapi "github.com/marcinbudny/realtimemap-go/internal/api"
 	"github.com/marcinbudny/realtimemap-go/internal/grains"
 	"github.com/marcinbudny/realtimemap-go/internal/ingress"
@@ -21,26 +20,8 @@ func main() {
 	cluster := protocluster.StartNode()
 	time.Sleep(2 * time.Second)
 
-	api := httpapi.NewHttpApi(ctx)
+	api := httpapi.NewHttpApi(cluster.ActorSystem, ctx)
 	httpDone := api.ListenAndServe()
-
-	batchingChan := make(chan *grains.Position, 100)
-	go func() {
-		batch := make([]*contract.Position, 0, 10)
-		for pos := range batchingChan {
-			batch = append(batch, MapToHubPosition(pos))
-			if len(batch) >= 10 {
-				api.Hub.SendPositionBatch(&contract.PositionBatch{Positions: batch})
-				batch = batch[:0]
-			}
-		}
-	}()
-
-	subscription := cluster.ActorSystem.EventStream.Subscribe(func(event interface{}) {
-		if pos, ok := event.(*grains.Position); ok {
-			batchingChan <- pos
-		}
-	})
 
 	ingressDone := ingress.ConsumeVehicleEvents(func(event *ingress.Event) {
 		position := MapToPosition(event)
@@ -52,8 +33,8 @@ func main() {
 
 	<-ingressDone
 	<-httpDone
-	cluster.ActorSystem.EventStream.Unsubscribe(subscription)
-	close(batchingChan)
+	// cluster.ActorSystem.EventStream.Unsubscribe(subscription)
+	// close(batchingChan)
 	cluster.Shutdown(true)
 }
 
@@ -95,14 +76,14 @@ func MapToPosition(e *ingress.Event) *grains.Position {
 	}
 }
 
-func MapToHubPosition(p *grains.Position) *contract.Position {
-	return &contract.Position{
-		VehicleId: p.VehicleId,
-		OrgId:     p.OrgId,
-		Latitude:  p.Latitude,
-		Longitude: p.Longitude,
-		Heading:   p.Heading,
-		Timestamp: p.Timestamp,
-		Speed:     p.Speed,
-	}
-}
+// func MapToHubPosition(p *grains.Position) *contract.Position {
+// 	return &contract.Position{
+// 		VehicleId: p.VehicleId,
+// 		OrgId:     p.OrgId,
+// 		Latitude:  p.Latitude,
+// 		Longitude: p.Longitude,
+// 		Heading:   p.Heading,
+// 		Timestamp: p.Timestamp,
+// 		Speed:     p.Speed,
+// 	}
+// }
