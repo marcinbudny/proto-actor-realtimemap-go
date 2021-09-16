@@ -288,6 +288,49 @@ func (m *GeoPoint) GetLatitude() float64 {
 	return 0
 }
 
+type Notification struct {
+	Message string `protobuf:"bytes,1,opt,name=message,proto3" json:"message,omitempty"`
+}
+
+func (m *Notification) Reset()      { *m = Notification{} }
+func (*Notification) ProtoMessage() {}
+func (*Notification) Descriptor() ([]byte, []int) {
+	return fileDescriptor_5da3cbeb884d181c, []int{5}
+}
+func (m *Notification) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *Notification) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_Notification.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *Notification) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_Notification.Merge(m, src)
+}
+func (m *Notification) XXX_Size() int {
+	return m.Size()
+}
+func (m *Notification) XXX_DiscardUnknown() {
+	xxx_messageInfo_Notification.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_Notification proto.InternalMessageInfo
+
+func (m *Notification) GetMessage() string {
+	if m != nil {
+		return m.Message
+	}
+	return ""
+}
+
 type Viewport struct {
 	SouthWest *GeoPoint `protobuf:"bytes,1,opt,name=south_west,json=southWest,proto3" json:"south_west,omitempty"`
 	NorthEast *GeoPoint `protobuf:"bytes,2,opt,name=north_east,json=northEast,proto3" json:"north_east,omitempty"`
@@ -296,7 +339,7 @@ type Viewport struct {
 func (m *Viewport) Reset()      { *m = Viewport{} }
 func (*Viewport) ProtoMessage() {}
 func (*Viewport) Descriptor() ([]byte, []int) {
-	return fileDescriptor_5da3cbeb884d181c, []int{5}
+	return fileDescriptor_5da3cbeb884d181c, []int{6}
 }
 func (m *Viewport) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -346,7 +389,7 @@ type UpdateViewport struct {
 func (m *UpdateViewport) Reset()      { *m = UpdateViewport{} }
 func (*UpdateViewport) ProtoMessage() {}
 func (*UpdateViewport) Descriptor() ([]byte, []int) {
-	return fileDescriptor_5da3cbeb884d181c, []int{6}
+	return fileDescriptor_5da3cbeb884d181c, []int{7}
 }
 func (m *UpdateViewport) XXX_Unmarshal(b []byte) error {
 	return m.Unmarshal(b)
@@ -382,51 +425,234 @@ func (m *UpdateViewport) GetViewport() *Viewport {
 	return nil
 }
 
+type GetGeofencesRequest struct {
+	OrgId string `protobuf:"bytes,1,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+}
+
+func (m *GetGeofencesRequest) Reset()      { *m = GetGeofencesRequest{} }
+func (*GetGeofencesRequest) ProtoMessage() {}
+func (*GetGeofencesRequest) Descriptor() ([]byte, []int) {
+	return fileDescriptor_5da3cbeb884d181c, []int{8}
+}
+func (m *GetGeofencesRequest) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetGeofencesRequest) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetGeofencesRequest.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetGeofencesRequest) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetGeofencesRequest.Merge(m, src)
+}
+func (m *GetGeofencesRequest) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetGeofencesRequest) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetGeofencesRequest.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetGeofencesRequest proto.InternalMessageInfo
+
+func (m *GetGeofencesRequest) GetOrgId() string {
+	if m != nil {
+		return m.OrgId
+	}
+	return ""
+}
+
+type GeofenceDetails struct {
+	Name           string   `protobuf:"bytes,1,opt,name=name,proto3" json:"name,omitempty"`
+	RadiusInMeters float64  `protobuf:"fixed64,2,opt,name=radiusInMeters,proto3" json:"radiusInMeters,omitempty"`
+	Longitude      float64  `protobuf:"fixed64,3,opt,name=longitude,proto3" json:"longitude,omitempty"`
+	Latitude       float64  `protobuf:"fixed64,4,opt,name=latitude,proto3" json:"latitude,omitempty"`
+	OrgId          string   `protobuf:"bytes,5,opt,name=org_id,json=orgId,proto3" json:"org_id,omitempty"`
+	VehiclesInZone []string `protobuf:"bytes,6,rep,name=vehicles_in_zone,json=vehiclesInZone,proto3" json:"vehicles_in_zone,omitempty"`
+}
+
+func (m *GeofenceDetails) Reset()      { *m = GeofenceDetails{} }
+func (*GeofenceDetails) ProtoMessage() {}
+func (*GeofenceDetails) Descriptor() ([]byte, []int) {
+	return fileDescriptor_5da3cbeb884d181c, []int{9}
+}
+func (m *GeofenceDetails) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GeofenceDetails) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GeofenceDetails.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GeofenceDetails) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GeofenceDetails.Merge(m, src)
+}
+func (m *GeofenceDetails) XXX_Size() int {
+	return m.Size()
+}
+func (m *GeofenceDetails) XXX_DiscardUnknown() {
+	xxx_messageInfo_GeofenceDetails.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GeofenceDetails proto.InternalMessageInfo
+
+func (m *GeofenceDetails) GetName() string {
+	if m != nil {
+		return m.Name
+	}
+	return ""
+}
+
+func (m *GeofenceDetails) GetRadiusInMeters() float64 {
+	if m != nil {
+		return m.RadiusInMeters
+	}
+	return 0
+}
+
+func (m *GeofenceDetails) GetLongitude() float64 {
+	if m != nil {
+		return m.Longitude
+	}
+	return 0
+}
+
+func (m *GeofenceDetails) GetLatitude() float64 {
+	if m != nil {
+		return m.Latitude
+	}
+	return 0
+}
+
+func (m *GeofenceDetails) GetOrgId() string {
+	if m != nil {
+		return m.OrgId
+	}
+	return ""
+}
+
+func (m *GeofenceDetails) GetVehiclesInZone() []string {
+	if m != nil {
+		return m.VehiclesInZone
+	}
+	return nil
+}
+
+type GetGeofencesResponse struct {
+	Geofences []*GeofenceDetails `protobuf:"bytes,1,rep,name=geofences,proto3" json:"geofences,omitempty"`
+}
+
+func (m *GetGeofencesResponse) Reset()      { *m = GetGeofencesResponse{} }
+func (*GetGeofencesResponse) ProtoMessage() {}
+func (*GetGeofencesResponse) Descriptor() ([]byte, []int) {
+	return fileDescriptor_5da3cbeb884d181c, []int{10}
+}
+func (m *GetGeofencesResponse) XXX_Unmarshal(b []byte) error {
+	return m.Unmarshal(b)
+}
+func (m *GetGeofencesResponse) XXX_Marshal(b []byte, deterministic bool) ([]byte, error) {
+	if deterministic {
+		return xxx_messageInfo_GetGeofencesResponse.Marshal(b, m, deterministic)
+	} else {
+		b = b[:cap(b)]
+		n, err := m.MarshalToSizedBuffer(b)
+		if err != nil {
+			return nil, err
+		}
+		return b[:n], nil
+	}
+}
+func (m *GetGeofencesResponse) XXX_Merge(src proto.Message) {
+	xxx_messageInfo_GetGeofencesResponse.Merge(m, src)
+}
+func (m *GetGeofencesResponse) XXX_Size() int {
+	return m.Size()
+}
+func (m *GetGeofencesResponse) XXX_DiscardUnknown() {
+	xxx_messageInfo_GetGeofencesResponse.DiscardUnknown(m)
+}
+
+var xxx_messageInfo_GetGeofencesResponse proto.InternalMessageInfo
+
+func (m *GetGeofencesResponse) GetGeofences() []*GeofenceDetails {
+	if m != nil {
+		return m.Geofences
+	}
+	return nil
+}
+
 func init() {
 	proto.RegisterType((*Empty)(nil), "grains.Empty")
 	proto.RegisterType((*Position)(nil), "grains.Position")
 	proto.RegisterType((*GetPositionsHistoryRequest)(nil), "grains.GetPositionsHistoryRequest")
 	proto.RegisterType((*PositionBatch)(nil), "grains.PositionBatch")
 	proto.RegisterType((*GeoPoint)(nil), "grains.GeoPoint")
+	proto.RegisterType((*Notification)(nil), "grains.Notification")
 	proto.RegisterType((*Viewport)(nil), "grains.Viewport")
 	proto.RegisterType((*UpdateViewport)(nil), "grains.UpdateViewport")
+	proto.RegisterType((*GetGeofencesRequest)(nil), "grains.GetGeofencesRequest")
+	proto.RegisterType((*GeofenceDetails)(nil), "grains.GeofenceDetails")
+	proto.RegisterType((*GetGeofencesResponse)(nil), "grains.GetGeofencesResponse")
 }
 
 func init() { proto.RegisterFile("protos.proto", fileDescriptor_5da3cbeb884d181c) }
 
 var fileDescriptor_5da3cbeb884d181c = []byte{
-	// 485 bytes of a gzipped FileDescriptorProto
-	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x53, 0xc1, 0x6e, 0xd3, 0x40,
-	0x10, 0xf5, 0x36, 0x24, 0xb1, 0x87, 0x16, 0xa1, 0x85, 0x4a, 0x56, 0x54, 0x56, 0x96, 0x4f, 0x3e,
-	0x40, 0x90, 0x02, 0x57, 0x40, 0xaa, 0xa8, 0x4a, 0x4f, 0x89, 0x2c, 0x51, 0x8e, 0xd1, 0x52, 0xaf,
-	0xec, 0x95, 0x92, 0x5d, 0xb3, 0x3b, 0x69, 0x55, 0x4e, 0x7c, 0x00, 0x07, 0x3e, 0x83, 0x4f, 0xe1,
-	0x98, 0x63, 0x8f, 0xc4, 0x39, 0xc0, 0xb1, 0x9f, 0x80, 0xb2, 0xae, 0x13, 0x5a, 0x0a, 0x12, 0x27,
-	0x7b, 0xde, 0x7b, 0x3b, 0xf3, 0x66, 0x67, 0x16, 0xb6, 0x4b, 0xa3, 0x51, 0xdb, 0xbe, 0xfb, 0xd0,
-	0x4e, 0x6e, 0xb8, 0x54, 0x36, 0xee, 0x42, 0xfb, 0x60, 0x5a, 0xe2, 0x79, 0xfc, 0x83, 0x80, 0x3f,
-	0xd2, 0x56, 0xa2, 0xd4, 0x8a, 0x3e, 0x02, 0x38, 0x15, 0x85, 0x3c, 0x99, 0x88, 0xb1, 0xcc, 0x42,
-	0x12, 0x91, 0x24, 0x48, 0x83, 0x2b, 0xe4, 0x28, 0xa3, 0xbb, 0xd0, 0xd1, 0x26, 0x5f, 0x51, 0x5b,
-	0x8e, 0x6a, 0x6b, 0x93, 0x1f, 0x65, 0x74, 0x0f, 0x02, 0x94, 0x53, 0x61, 0x91, 0x4f, 0xcb, 0xb0,
-	0x15, 0x91, 0xa4, 0x95, 0x6e, 0x80, 0x15, 0x3b, 0xd1, 0x2a, 0x97, 0x38, 0xcb, 0x44, 0x78, 0x27,
-	0x22, 0x09, 0x49, 0x37, 0x00, 0xed, 0x81, 0x3f, 0xe1, 0x58, 0x93, 0x6d, 0x47, 0xae, 0x63, 0x1a,
-	0x42, 0xb7, 0x10, 0x3c, 0x93, 0x2a, 0x0f, 0x3b, 0x11, 0x49, 0xda, 0x69, 0x13, 0xae, 0x7c, 0x66,
-	0x5a, 0x1b, 0x3b, 0xd6, 0xa5, 0x50, 0x61, 0x37, 0x22, 0x89, 0x9f, 0x06, 0x0e, 0x19, 0x96, 0x42,
-	0xd1, 0x87, 0xd0, 0xb6, 0xa5, 0x10, 0x59, 0xe8, 0xbb, 0x8c, 0x75, 0x10, 0xef, 0x41, 0xef, 0x50,
-	0x60, 0xd3, 0xab, 0x7d, 0x23, 0x2d, 0x6a, 0x73, 0x9e, 0x8a, 0x0f, 0x33, 0x61, 0x31, 0x7e, 0x05,
-	0x3b, 0x0d, 0xb5, 0xcf, 0xf1, 0xa4, 0xa0, 0x7d, 0x08, 0xca, 0x46, 0x1b, 0x92, 0xa8, 0x95, 0xdc,
-	0x1d, 0xdc, 0xef, 0xd7, 0xb7, 0xd7, 0x6f, 0x94, 0xe9, 0x46, 0x12, 0xbf, 0x06, 0xff, 0x50, 0xe8,
-	0x91, 0x96, 0x0a, 0xaf, 0xf7, 0x4c, 0xfe, 0xd5, 0xf3, 0xd6, 0xf5, 0x9e, 0xe3, 0x09, 0xf8, 0xc7,
-	0x52, 0x9c, 0x95, 0xda, 0x20, 0x7d, 0x0a, 0x60, 0xf5, 0x0c, 0x8b, 0xf1, 0x99, 0xb0, 0xe8, 0xd2,
-	0xfc, 0x66, 0xa1, 0xa9, 0x95, 0x06, 0x4e, 0xf3, 0x4e, 0x58, 0x77, 0x40, 0x69, 0x83, 0xc5, 0x58,
-	0x70, 0x8b, 0x2e, 0xf5, 0xad, 0x07, 0x9c, 0xe6, 0x80, 0x5b, 0x8c, 0x5f, 0xc2, 0xbd, 0xb7, 0x65,
-	0xc6, 0x51, 0xac, 0x6b, 0x3e, 0x06, 0xff, 0xf4, 0xea, 0xff, 0x66, 0xc5, 0x46, 0x93, 0xae, 0x15,
-	0x83, 0xcf, 0x04, 0xba, 0xc7, 0xf5, 0x7a, 0xac, 0x8a, 0x0f, 0xd5, 0x7a, 0x93, 0xfe, 0xb8, 0xaa,
-	0xde, 0x4e, 0x83, 0xd4, 0x7b, 0xe7, 0xd1, 0x11, 0x3c, 0xb8, 0x65, 0x1e, 0x34, 0xde, 0x18, 0xfe,
-	0xdb, 0xb0, 0x7a, 0xbb, 0x37, 0xb3, 0xbb, 0x91, 0x0d, 0x5e, 0xc0, 0xf6, 0xd0, 0xe4, 0x5c, 0xc9,
-	0x8f, 0xdc, 0x99, 0x78, 0xf2, 0x5f, 0x96, 0xf6, 0x9f, 0xcf, 0x17, 0xcc, 0xbb, 0x58, 0x30, 0xef,
-	0x72, 0xc1, 0xc8, 0xa7, 0x8a, 0x91, 0xaf, 0x15, 0x23, 0xdf, 0x2a, 0x46, 0xe6, 0x15, 0x23, 0xdf,
-	0x2b, 0x46, 0x7e, 0x56, 0xcc, 0xbb, 0xac, 0x18, 0xf9, 0xb2, 0x64, 0xde, 0x7c, 0xc9, 0xbc, 0x8b,
-	0x25, 0xf3, 0xde, 0x77, 0xdc, 0xc3, 0x7a, 0xf6, 0x2b, 0x00, 0x00, 0xff, 0xff, 0x2c, 0x1c, 0x79,
-	0xd1, 0x68, 0x03, 0x00, 0x00,
+	// 653 bytes of a gzipped FileDescriptorProto
+	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x94, 0x54, 0x4d, 0x6f, 0xd3, 0x4c,
+	0x10, 0xce, 0x36, 0xcd, 0x87, 0xe7, 0x4d, 0xfb, 0x56, 0x4b, 0x2b, 0xac, 0x50, 0xac, 0xc8, 0x07,
+	0xe4, 0x43, 0x09, 0x52, 0x81, 0x2b, 0x48, 0x55, 0xab, 0x90, 0x43, 0x69, 0x65, 0x89, 0x22, 0x71,
+	0x89, 0x96, 0x78, 0xea, 0xac, 0x94, 0xec, 0x1a, 0xef, 0xa6, 0x55, 0x7b, 0xe2, 0xc8, 0x81, 0x03,
+	0x3f, 0x83, 0x9f, 0xd2, 0x63, 0x8f, 0x3d, 0x52, 0xf7, 0x00, 0xc7, 0xfe, 0x04, 0x94, 0xb5, 0x9d,
+	0x38, 0xa1, 0x54, 0xe2, 0xe4, 0x9d, 0x67, 0x9e, 0xdd, 0xf9, 0x7a, 0xc6, 0xd0, 0x88, 0x62, 0xa9,
+	0xa5, 0x6a, 0x9b, 0x0f, 0xad, 0x86, 0x31, 0xe3, 0x42, 0xb9, 0x35, 0xa8, 0xec, 0x8d, 0x22, 0x7d,
+	0xe6, 0xfe, 0x24, 0x50, 0x3f, 0x94, 0x8a, 0x6b, 0x2e, 0x05, 0x7d, 0x0c, 0x70, 0x82, 0x03, 0xde,
+	0x1f, 0x62, 0x8f, 0x07, 0x36, 0x69, 0x11, 0xcf, 0xf2, 0xad, 0x0c, 0xe9, 0x06, 0x74, 0x03, 0xaa,
+	0x32, 0x0e, 0x27, 0xae, 0x25, 0xe3, 0xaa, 0xc8, 0x38, 0xec, 0x06, 0x74, 0x13, 0x2c, 0xcd, 0x47,
+	0xa8, 0x34, 0x1b, 0x45, 0x76, 0xb9, 0x45, 0xbc, 0xb2, 0x3f, 0x03, 0x26, 0xde, 0xa1, 0x14, 0x21,
+	0xd7, 0xe3, 0x00, 0xed, 0xe5, 0x16, 0xf1, 0x88, 0x3f, 0x03, 0x68, 0x13, 0xea, 0x43, 0xa6, 0x53,
+	0x67, 0xc5, 0x38, 0xa7, 0x36, 0xb5, 0xa1, 0x36, 0x40, 0x16, 0x70, 0x11, 0xda, 0xd5, 0x16, 0xf1,
+	0x2a, 0x7e, 0x6e, 0x4e, 0xf2, 0x0c, 0xa4, 0x8c, 0x55, 0x4f, 0x46, 0x28, 0xec, 0x5a, 0x8b, 0x78,
+	0x75, 0xdf, 0x32, 0xc8, 0x41, 0x84, 0x82, 0xae, 0x43, 0x45, 0x45, 0x88, 0x81, 0x5d, 0x37, 0x2f,
+	0xa6, 0x86, 0xbb, 0x09, 0xcd, 0x0e, 0xea, 0xbc, 0x56, 0xf5, 0x86, 0x2b, 0x2d, 0xe3, 0x33, 0x1f,
+	0x3f, 0x8d, 0x51, 0x69, 0xf7, 0x35, 0xac, 0xe4, 0xae, 0x1d, 0xa6, 0xfb, 0x03, 0xda, 0x06, 0x2b,
+	0xca, 0xb9, 0x36, 0x69, 0x95, 0xbd, 0xff, 0xb6, 0xd7, 0xda, 0x69, 0xf7, 0xda, 0x39, 0xd3, 0x9f,
+	0x51, 0xdc, 0x5d, 0xa8, 0x77, 0x50, 0x1e, 0x4a, 0x2e, 0xf4, 0x7c, 0xcd, 0xe4, 0xbe, 0x9a, 0x97,
+	0xe6, 0x6b, 0x76, 0x3d, 0x68, 0xbc, 0x95, 0x9a, 0x1f, 0xf3, 0x3e, 0x33, 0x13, 0xb1, 0xa1, 0x36,
+	0x42, 0xa5, 0x58, 0x88, 0xd9, 0x38, 0x72, 0xd3, 0x1d, 0x42, 0xfd, 0x88, 0xe3, 0x69, 0x24, 0x63,
+	0x4d, 0x9f, 0x01, 0x28, 0x39, 0xd6, 0x83, 0xde, 0x29, 0x2a, 0x6d, 0x88, 0x85, 0x64, 0xf3, 0xac,
+	0x7c, 0xcb, 0x70, 0xde, 0xa3, 0x32, 0x17, 0x84, 0x8c, 0xf5, 0xa0, 0x87, 0x4c, 0x69, 0x93, 0xc4,
+	0x9d, 0x17, 0x0c, 0x67, 0x8f, 0x29, 0xed, 0xbe, 0x82, 0xd5, 0x77, 0x51, 0xc0, 0x34, 0x4e, 0x63,
+	0x6e, 0x41, 0xfd, 0x24, 0x3b, 0x2f, 0x46, 0xcc, 0x39, 0xfe, 0x94, 0xe1, 0x6e, 0xc1, 0x83, 0x0e,
+	0xea, 0x0e, 0xca, 0x63, 0x14, 0x7d, 0x54, 0x59, 0xd7, 0x0b, 0x8a, 0x22, 0x05, 0x45, 0xb9, 0x17,
+	0x04, 0xfe, 0xcf, 0xb9, 0xbb, 0xa8, 0x19, 0x1f, 0x2a, 0x4a, 0x61, 0x59, 0xb0, 0x51, 0xde, 0x06,
+	0x73, 0xa6, 0x4f, 0x60, 0x35, 0x66, 0x01, 0x1f, 0xab, 0xae, 0xd8, 0x47, 0x8d, 0xb1, 0xca, 0xfa,
+	0xb9, 0x80, 0xce, 0xcf, 0xa3, 0x7c, 0xdf, 0x3c, 0x96, 0x17, 0x34, 0x38, 0x4b, 0xb0, 0x52, 0x94,
+	0xbc, 0x07, 0x6b, 0xd9, 0x5a, 0xa8, 0x1e, 0x17, 0xbd, 0x73, 0x29, 0xd0, 0xae, 0xb6, 0xca, 0x9e,
+	0xe5, 0xaf, 0xe6, 0x78, 0x57, 0x7c, 0x90, 0x02, 0xdd, 0x7d, 0x58, 0x9f, 0x2f, 0x5c, 0x45, 0x52,
+	0x28, 0xa4, 0x2f, 0xc1, 0x0a, 0x73, 0x30, 0x93, 0xd7, 0xc3, 0xc2, 0x00, 0x8a, 0xa5, 0xfb, 0x33,
+	0xe6, 0xf6, 0x57, 0x02, 0xb5, 0xa3, 0x34, 0xc2, 0x64, 0x88, 0x07, 0x62, 0xba, 0xbb, 0x7f, 0x88,
+	0xb3, 0xb9, 0x92, 0x23, 0xe9, 0xa6, 0x97, 0xe8, 0xa1, 0x19, 0xc2, 0xe2, 0x06, 0x50, 0x77, 0x16,
+	0xf7, 0x6f, 0xeb, 0xd1, 0xdc, 0x58, 0x7c, 0xdd, 0x2c, 0xc9, 0xf6, 0x17, 0x02, 0x8d, 0x83, 0x38,
+	0x64, 0x82, 0x9f, 0xa7, 0x7a, 0x7d, 0xfa, 0x4f, 0x39, 0xd1, 0x2e, 0x34, 0x8a, 0xdd, 0xa1, 0x8f,
+	0x0a, 0xa9, 0x2c, 0x8a, 0xa5, 0xb9, 0x79, 0xb7, 0x33, 0x6d, 0xe8, 0xce, 0x8b, 0xcb, 0x6b, 0xa7,
+	0x74, 0x75, 0xed, 0x94, 0x6e, 0xaf, 0x1d, 0xf2, 0x39, 0x71, 0xc8, 0xf7, 0xc4, 0x21, 0x17, 0x89,
+	0x43, 0x2e, 0x13, 0x87, 0xfc, 0x48, 0x1c, 0xf2, 0x2b, 0x71, 0x4a, 0xb7, 0x89, 0x43, 0xbe, 0xdd,
+	0x38, 0xa5, 0xcb, 0x1b, 0xa7, 0x74, 0x75, 0xe3, 0x94, 0x3e, 0x56, 0xcd, 0x6f, 0xf1, 0xf9, 0xef,
+	0x00, 0x00, 0x00, 0xff, 0xff, 0xdd, 0x32, 0xe1, 0x1e, 0x26, 0x05, 0x00, 0x00,
 }
 
 func (this *Empty) Equal(that interface{}) bool {
@@ -572,6 +798,30 @@ func (this *GeoPoint) Equal(that interface{}) bool {
 	}
 	return true
 }
+func (this *Notification) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*Notification)
+	if !ok {
+		that2, ok := that.(Notification)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Message != that1.Message {
+		return false
+	}
+	return true
+}
 func (this *Viewport) Equal(that interface{}) bool {
 	if that == nil {
 		return this == nil
@@ -620,6 +870,103 @@ func (this *UpdateViewport) Equal(that interface{}) bool {
 	}
 	if !this.Viewport.Equal(that1.Viewport) {
 		return false
+	}
+	return true
+}
+func (this *GetGeofencesRequest) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*GetGeofencesRequest)
+	if !ok {
+		that2, ok := that.(GetGeofencesRequest)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.OrgId != that1.OrgId {
+		return false
+	}
+	return true
+}
+func (this *GeofenceDetails) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*GeofenceDetails)
+	if !ok {
+		that2, ok := that.(GeofenceDetails)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if this.Name != that1.Name {
+		return false
+	}
+	if this.RadiusInMeters != that1.RadiusInMeters {
+		return false
+	}
+	if this.Longitude != that1.Longitude {
+		return false
+	}
+	if this.Latitude != that1.Latitude {
+		return false
+	}
+	if this.OrgId != that1.OrgId {
+		return false
+	}
+	if len(this.VehiclesInZone) != len(that1.VehiclesInZone) {
+		return false
+	}
+	for i := range this.VehiclesInZone {
+		if this.VehiclesInZone[i] != that1.VehiclesInZone[i] {
+			return false
+		}
+	}
+	return true
+}
+func (this *GetGeofencesResponse) Equal(that interface{}) bool {
+	if that == nil {
+		return this == nil
+	}
+
+	that1, ok := that.(*GetGeofencesResponse)
+	if !ok {
+		that2, ok := that.(GetGeofencesResponse)
+		if ok {
+			that1 = &that2
+		} else {
+			return false
+		}
+	}
+	if that1 == nil {
+		return this == nil
+	} else if this == nil {
+		return false
+	}
+	if len(this.Geofences) != len(that1.Geofences) {
+		return false
+	}
+	for i := range this.Geofences {
+		if !this.Geofences[i].Equal(that1.Geofences[i]) {
+			return false
+		}
 	}
 	return true
 }
@@ -681,6 +1028,16 @@ func (this *GeoPoint) GoString() string {
 	s = append(s, "}")
 	return strings.Join(s, "")
 }
+func (this *Notification) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&grains.Notification{")
+	s = append(s, "Message: "+fmt.Sprintf("%#v", this.Message)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
 func (this *Viewport) GoString() string {
 	if this == nil {
 		return "nil"
@@ -704,6 +1061,43 @@ func (this *UpdateViewport) GoString() string {
 	s = append(s, "&grains.UpdateViewport{")
 	if this.Viewport != nil {
 		s = append(s, "Viewport: "+fmt.Sprintf("%#v", this.Viewport)+",\n")
+	}
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *GetGeofencesRequest) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&grains.GetGeofencesRequest{")
+	s = append(s, "OrgId: "+fmt.Sprintf("%#v", this.OrgId)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *GeofenceDetails) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 10)
+	s = append(s, "&grains.GeofenceDetails{")
+	s = append(s, "Name: "+fmt.Sprintf("%#v", this.Name)+",\n")
+	s = append(s, "RadiusInMeters: "+fmt.Sprintf("%#v", this.RadiusInMeters)+",\n")
+	s = append(s, "Longitude: "+fmt.Sprintf("%#v", this.Longitude)+",\n")
+	s = append(s, "Latitude: "+fmt.Sprintf("%#v", this.Latitude)+",\n")
+	s = append(s, "OrgId: "+fmt.Sprintf("%#v", this.OrgId)+",\n")
+	s = append(s, "VehiclesInZone: "+fmt.Sprintf("%#v", this.VehiclesInZone)+",\n")
+	s = append(s, "}")
+	return strings.Join(s, "")
+}
+func (this *GetGeofencesResponse) GoString() string {
+	if this == nil {
+		return "nil"
+	}
+	s := make([]string, 0, 5)
+	s = append(s, "&grains.GetGeofencesResponse{")
+	if this.Geofences != nil {
+		s = append(s, "Geofences: "+fmt.Sprintf("%#v", this.Geofences)+",\n")
 	}
 	s = append(s, "}")
 	return strings.Join(s, "")
@@ -909,6 +1303,36 @@ func (m *GeoPoint) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 	return len(dAtA) - i, nil
 }
 
+func (m *Notification) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *Notification) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *Notification) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Message) > 0 {
+		i -= len(m.Message)
+		copy(dAtA[i:], m.Message)
+		i = encodeVarintProtos(dAtA, i, uint64(len(m.Message)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
 func (m *Viewport) Marshal() (dAtA []byte, err error) {
 	size := m.Size()
 	dAtA = make([]byte, size)
@@ -987,6 +1411,137 @@ func (m *UpdateViewport) MarshalToSizedBuffer(dAtA []byte) (int, error) {
 		}
 		i--
 		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetGeofencesRequest) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetGeofencesRequest) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetGeofencesRequest) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.OrgId) > 0 {
+		i -= len(m.OrgId)
+		copy(dAtA[i:], m.OrgId)
+		i = encodeVarintProtos(dAtA, i, uint64(len(m.OrgId)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GeofenceDetails) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GeofenceDetails) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GeofenceDetails) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.VehiclesInZone) > 0 {
+		for iNdEx := len(m.VehiclesInZone) - 1; iNdEx >= 0; iNdEx-- {
+			i -= len(m.VehiclesInZone[iNdEx])
+			copy(dAtA[i:], m.VehiclesInZone[iNdEx])
+			i = encodeVarintProtos(dAtA, i, uint64(len(m.VehiclesInZone[iNdEx])))
+			i--
+			dAtA[i] = 0x32
+		}
+	}
+	if len(m.OrgId) > 0 {
+		i -= len(m.OrgId)
+		copy(dAtA[i:], m.OrgId)
+		i = encodeVarintProtos(dAtA, i, uint64(len(m.OrgId)))
+		i--
+		dAtA[i] = 0x2a
+	}
+	if m.Latitude != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Latitude))))
+		i--
+		dAtA[i] = 0x21
+	}
+	if m.Longitude != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.Longitude))))
+		i--
+		dAtA[i] = 0x19
+	}
+	if m.RadiusInMeters != 0 {
+		i -= 8
+		encoding_binary.LittleEndian.PutUint64(dAtA[i:], uint64(math.Float64bits(float64(m.RadiusInMeters))))
+		i--
+		dAtA[i] = 0x11
+	}
+	if len(m.Name) > 0 {
+		i -= len(m.Name)
+		copy(dAtA[i:], m.Name)
+		i = encodeVarintProtos(dAtA, i, uint64(len(m.Name)))
+		i--
+		dAtA[i] = 0xa
+	}
+	return len(dAtA) - i, nil
+}
+
+func (m *GetGeofencesResponse) Marshal() (dAtA []byte, err error) {
+	size := m.Size()
+	dAtA = make([]byte, size)
+	n, err := m.MarshalToSizedBuffer(dAtA[:size])
+	if err != nil {
+		return nil, err
+	}
+	return dAtA[:n], nil
+}
+
+func (m *GetGeofencesResponse) MarshalTo(dAtA []byte) (int, error) {
+	size := m.Size()
+	return m.MarshalToSizedBuffer(dAtA[:size])
+}
+
+func (m *GetGeofencesResponse) MarshalToSizedBuffer(dAtA []byte) (int, error) {
+	i := len(dAtA)
+	_ = i
+	var l int
+	_ = l
+	if len(m.Geofences) > 0 {
+		for iNdEx := len(m.Geofences) - 1; iNdEx >= 0; iNdEx-- {
+			{
+				size, err := m.Geofences[iNdEx].MarshalToSizedBuffer(dAtA[:i])
+				if err != nil {
+					return 0, err
+				}
+				i -= size
+				i = encodeVarintProtos(dAtA, i, uint64(size))
+			}
+			i--
+			dAtA[i] = 0xa
+		}
 	}
 	return len(dAtA) - i, nil
 }
@@ -1085,6 +1640,19 @@ func (m *GeoPoint) Size() (n int) {
 	return n
 }
 
+func (m *Notification) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Message)
+	if l > 0 {
+		n += 1 + l + sovProtos(uint64(l))
+	}
+	return n
+}
+
 func (m *Viewport) Size() (n int) {
 	if m == nil {
 		return 0
@@ -1111,6 +1679,66 @@ func (m *UpdateViewport) Size() (n int) {
 	if m.Viewport != nil {
 		l = m.Viewport.Size()
 		n += 1 + l + sovProtos(uint64(l))
+	}
+	return n
+}
+
+func (m *GetGeofencesRequest) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.OrgId)
+	if l > 0 {
+		n += 1 + l + sovProtos(uint64(l))
+	}
+	return n
+}
+
+func (m *GeofenceDetails) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	l = len(m.Name)
+	if l > 0 {
+		n += 1 + l + sovProtos(uint64(l))
+	}
+	if m.RadiusInMeters != 0 {
+		n += 9
+	}
+	if m.Longitude != 0 {
+		n += 9
+	}
+	if m.Latitude != 0 {
+		n += 9
+	}
+	l = len(m.OrgId)
+	if l > 0 {
+		n += 1 + l + sovProtos(uint64(l))
+	}
+	if len(m.VehiclesInZone) > 0 {
+		for _, s := range m.VehiclesInZone {
+			l = len(s)
+			n += 1 + l + sovProtos(uint64(l))
+		}
+	}
+	return n
+}
+
+func (m *GetGeofencesResponse) Size() (n int) {
+	if m == nil {
+		return 0
+	}
+	var l int
+	_ = l
+	if len(m.Geofences) > 0 {
+		for _, e := range m.Geofences {
+			l = e.Size()
+			n += 1 + l + sovProtos(uint64(l))
+		}
 	}
 	return n
 }
@@ -1182,6 +1810,16 @@ func (this *GeoPoint) String() string {
 	}, "")
 	return s
 }
+func (this *Notification) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&Notification{`,
+		`Message:` + fmt.Sprintf("%v", this.Message) + `,`,
+		`}`,
+	}, "")
+	return s
+}
 func (this *Viewport) String() string {
 	if this == nil {
 		return "nil"
@@ -1199,6 +1837,46 @@ func (this *UpdateViewport) String() string {
 	}
 	s := strings.Join([]string{`&UpdateViewport{`,
 		`Viewport:` + strings.Replace(this.Viewport.String(), "Viewport", "Viewport", 1) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *GetGeofencesRequest) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&GetGeofencesRequest{`,
+		`OrgId:` + fmt.Sprintf("%v", this.OrgId) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *GeofenceDetails) String() string {
+	if this == nil {
+		return "nil"
+	}
+	s := strings.Join([]string{`&GeofenceDetails{`,
+		`Name:` + fmt.Sprintf("%v", this.Name) + `,`,
+		`RadiusInMeters:` + fmt.Sprintf("%v", this.RadiusInMeters) + `,`,
+		`Longitude:` + fmt.Sprintf("%v", this.Longitude) + `,`,
+		`Latitude:` + fmt.Sprintf("%v", this.Latitude) + `,`,
+		`OrgId:` + fmt.Sprintf("%v", this.OrgId) + `,`,
+		`VehiclesInZone:` + fmt.Sprintf("%v", this.VehiclesInZone) + `,`,
+		`}`,
+	}, "")
+	return s
+}
+func (this *GetGeofencesResponse) String() string {
+	if this == nil {
+		return "nil"
+	}
+	repeatedStringForGeofences := "[]*GeofenceDetails{"
+	for _, f := range this.Geofences {
+		repeatedStringForGeofences += strings.Replace(f.String(), "GeofenceDetails", "GeofenceDetails", 1) + ","
+	}
+	repeatedStringForGeofences += "}"
+	s := strings.Join([]string{`&GetGeofencesResponse{`,
+		`Geofences:` + repeatedStringForGeofences + `,`,
 		`}`,
 	}, "")
 	return s
@@ -1672,6 +2350,88 @@ func (m *GeoPoint) Unmarshal(dAtA []byte) error {
 	}
 	return nil
 }
+func (m *Notification) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProtos
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: Notification: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: Notification: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Message", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProtos
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProtos
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Message = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProtos(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
 func (m *Viewport) Unmarshal(dAtA []byte) error {
 	l := len(dAtA)
 	iNdEx := 0
@@ -1856,6 +2616,351 @@ func (m *UpdateViewport) Unmarshal(dAtA []byte) error {
 				m.Viewport = &Viewport{}
 			}
 			if err := m.Viewport.Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
+				return err
+			}
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProtos(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetGeofencesRequest) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProtos
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetGeofencesRequest: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetGeofencesRequest: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OrgId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProtos
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProtos
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.OrgId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProtos(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GeofenceDetails) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProtos
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GeofenceDetails: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GeofenceDetails: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Name", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProtos
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProtos
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Name = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 2:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field RadiusInMeters", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.RadiusInMeters = float64(math.Float64frombits(v))
+		case 3:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Longitude", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.Longitude = float64(math.Float64frombits(v))
+		case 4:
+			if wireType != 1 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Latitude", wireType)
+			}
+			var v uint64
+			if (iNdEx + 8) > l {
+				return io.ErrUnexpectedEOF
+			}
+			v = uint64(encoding_binary.LittleEndian.Uint64(dAtA[iNdEx:]))
+			iNdEx += 8
+			m.Latitude = float64(math.Float64frombits(v))
+		case 5:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field OrgId", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProtos
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProtos
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.OrgId = string(dAtA[iNdEx:postIndex])
+			iNdEx = postIndex
+		case 6:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field VehiclesInZone", wireType)
+			}
+			var stringLen uint64
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProtos
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				stringLen |= uint64(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			intStringLen := int(stringLen)
+			if intStringLen < 0 {
+				return ErrInvalidLengthProtos
+			}
+			postIndex := iNdEx + intStringLen
+			if postIndex < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.VehiclesInZone = append(m.VehiclesInZone, string(dAtA[iNdEx:postIndex]))
+			iNdEx = postIndex
+		default:
+			iNdEx = preIndex
+			skippy, err := skipProtos(dAtA[iNdEx:])
+			if err != nil {
+				return err
+			}
+			if (skippy < 0) || (iNdEx+skippy) < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if (iNdEx + skippy) > l {
+				return io.ErrUnexpectedEOF
+			}
+			iNdEx += skippy
+		}
+	}
+
+	if iNdEx > l {
+		return io.ErrUnexpectedEOF
+	}
+	return nil
+}
+func (m *GetGeofencesResponse) Unmarshal(dAtA []byte) error {
+	l := len(dAtA)
+	iNdEx := 0
+	for iNdEx < l {
+		preIndex := iNdEx
+		var wire uint64
+		for shift := uint(0); ; shift += 7 {
+			if shift >= 64 {
+				return ErrIntOverflowProtos
+			}
+			if iNdEx >= l {
+				return io.ErrUnexpectedEOF
+			}
+			b := dAtA[iNdEx]
+			iNdEx++
+			wire |= uint64(b&0x7F) << shift
+			if b < 0x80 {
+				break
+			}
+		}
+		fieldNum := int32(wire >> 3)
+		wireType := int(wire & 0x7)
+		if wireType == 4 {
+			return fmt.Errorf("proto: GetGeofencesResponse: wiretype end group for non-group")
+		}
+		if fieldNum <= 0 {
+			return fmt.Errorf("proto: GetGeofencesResponse: illegal tag %d (wire type %d)", fieldNum, wire)
+		}
+		switch fieldNum {
+		case 1:
+			if wireType != 2 {
+				return fmt.Errorf("proto: wrong wireType = %d for field Geofences", wireType)
+			}
+			var msglen int
+			for shift := uint(0); ; shift += 7 {
+				if shift >= 64 {
+					return ErrIntOverflowProtos
+				}
+				if iNdEx >= l {
+					return io.ErrUnexpectedEOF
+				}
+				b := dAtA[iNdEx]
+				iNdEx++
+				msglen |= int(b&0x7F) << shift
+				if b < 0x80 {
+					break
+				}
+			}
+			if msglen < 0 {
+				return ErrInvalidLengthProtos
+			}
+			postIndex := iNdEx + msglen
+			if postIndex < 0 {
+				return ErrInvalidLengthProtos
+			}
+			if postIndex > l {
+				return io.ErrUnexpectedEOF
+			}
+			m.Geofences = append(m.Geofences, &GeofenceDetails{})
+			if err := m.Geofences[len(m.Geofences)-1].Unmarshal(dAtA[iNdEx:postIndex]); err != nil {
 				return err
 			}
 			iNdEx = postIndex

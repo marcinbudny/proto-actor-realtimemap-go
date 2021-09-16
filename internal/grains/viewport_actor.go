@@ -9,18 +9,20 @@ import (
 
 const BatchSize = 10
 
-type SendPositions func(*PositionBatch)
+type SendPositions func(connectionID string, positions *PositionBatch)
+type SendNotification func(connectionID string, message string)
 
 type viewportActor struct {
-	connectionId  string
-	viewport      Viewport
-	batch         []*Position
-	sendPositions SendPositions
-	subscription  *eventstream.Subscription
+	connectionID     string
+	viewport         Viewport
+	batch            []*Position
+	sendPositions    SendPositions
+	sendNotification SendNotification
+	subscription     *eventstream.Subscription
 }
 
-func NewViewportActor(sendPositions SendPositions) *viewportActor {
-	return &viewportActor{sendPositions: sendPositions}
+func NewViewportActor(sendPositions SendPositions, sendNotification SendNotification) *viewportActor {
+	return &viewportActor{sendPositions: sendPositions, sendNotification: sendNotification}
 }
 
 func (v *viewportActor) Receive(ctx actor.Context) {
@@ -30,8 +32,11 @@ func (v *viewportActor) Receive(ctx actor.Context) {
 		v.batch = make([]*Position, 0, BatchSize)
 
 		v.subscription = ctx.ActorSystem().EventStream.Subscribe(func(event interface{}) {
-			if pos, ok := event.(*Position); ok {
-				ctx.Send(ctx.Self(), pos)
+			switch event.(type) {
+			case *Position:
+				ctx.Send(ctx.Self(), msg)
+			case *Notification:
+				ctx.Send(ctx.Self(), msg)
 			}
 		})
 
@@ -45,16 +50,19 @@ func (v *viewportActor) Receive(ctx actor.Context) {
 
 		v.batch = append(v.batch, msg)
 		if len(v.batch) >= BatchSize {
-			v.sendPositions(&PositionBatch{Positions: v.batch})
+			v.sendPositions(v.connectionID, &PositionBatch{Positions: v.batch})
 			v.batch = v.batch[:0]
 		}
 
+	case *Notification:
+		v.sendNotification(v.connectionID, msg.Message)
+
 	case *UpdateViewport:
 		v.viewport = *msg.Viewport
-		fmt.Printf("Viewport for connection %s is now %+v\n", v.connectionId, v.viewport)
+		fmt.Printf("Viewport for connection %s is now %+v\n", v.connectionID, v.viewport)
 
 	case *actor.Stopping:
-		fmt.Printf("Stopping viewport for connection %s\n", v.connectionId)
+		fmt.Printf("Stopping viewport for connection %s\n", v.connectionID)
 		ctx.ActorSystem().EventStream.Unsubscribe(v.subscription)
 		v.subscription = nil
 	}

@@ -47,6 +47,12 @@ func (h *AppHub) SendPositionBatch(connectionID string, batch *grains.PositionBa
 	}
 }
 
+func (h *AppHub) SendNotification(connectionID string, message string) {
+	if h.initialized {
+		h.Clients().Client(connectionID).Send("notification", message)
+	}
+}
+
 func (h *AppHub) SetViewport(swLng float64, swLat float64, neLng float64, neLat float64) {
 	var viewportPID *actor.PID
 
@@ -54,9 +60,7 @@ func (h *AppHub) SetViewport(swLng float64, swLat float64, neLng float64, neLat 
 		viewportPID, _ = item.(*actor.PID)
 	} else {
 		props := actor.PropsFromProducer(func() actor.Actor {
-			return grains.NewViewportActor(func(pb *grains.PositionBatch) {
-				h.SendPositionBatch(h.ConnectionID(), pb)
-			})
+			return grains.NewViewportActor(h.SendPositionBatch, h.SendNotification)
 		})
 		// spawn named so that we don't get multiple viewports for same connection id in the case of concurrency issues
 		viewportPID, _ = h.actorSystem.Root.SpawnNamed(props, h.ConnectionID())

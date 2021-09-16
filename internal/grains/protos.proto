@@ -25,6 +25,10 @@ message GeoPoint {
     double latitude = 2;
 }
 
+message Notification {
+    string message = 1;
+}
+
 message Viewport {
     GeoPoint south_west = 1;
     GeoPoint north_east = 2;
@@ -33,7 +37,24 @@ message Viewport {
 message UpdateViewport {
     Viewport viewport = 1;
 }
-   
+
+message GetGeofencesRequest {
+    string org_id = 1;
+}
+
+message GeofenceDetails {
+    string name = 1;
+    double radiusInMeters = 2;
+    double longitude = 3;
+    double latitude = 4;
+    string org_id = 5;
+    repeated string vehicles_in_zone = 6;
+}
+
+message GetGeofencesResponse {
+  repeated GeofenceDetails geofences = 1;
+}
+
 
 service Vehicle {
     rpc OnPosition(Position) returns (Empty) {}
@@ -42,5 +63,5 @@ service Vehicle {
 
 service Organization {
     rpc OnPosition (Position) returns (Empty);
-    //rpc GetGeofences(GetGeofencesRequest) returns (GetGeofencesResponse);
+    rpc GetGeofences(GetGeofencesRequest) returns (GetGeofencesResponse);
 }

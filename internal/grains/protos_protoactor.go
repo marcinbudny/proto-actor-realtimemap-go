@@ -223,6 +223,7 @@ type Organization interface {
 	Terminate()
 	ReceiveDefault(ctx actor.Context)
 	OnPosition(*Position, cluster.GrainContext) (*Empty, error)
+	GetGeofences(*GetGeofencesRequest, cluster.GrainContext) (*GetGeofencesResponse, error)
 	
 }
 
@@ -246,6 +247,35 @@ func (g *OrganizationGrainClient) OnPosition(r *Position, opts ...*cluster.Grain
 	switch msg := resp.(type) {
 	case *cluster.GrainResponse:
 		result := &Empty{}
+		err = proto.Unmarshal(msg.MessageData, result)
+		if err != nil {
+			return nil, err
+		}
+		return result, nil
+	case *cluster.GrainErrorResponse:
+		if msg.Code == remote.ResponseStatusCodeDeadLetter.ToInt32() {
+			return nil, remote.ErrDeadLetter
+		}
+		return nil, errors.New(msg.Err)
+	default:
+		return nil, errors.New("unknown response")
+	}
+}
+
+// GetGeofences requests the execution on to the cluster with CallOptions
+func (g *OrganizationGrainClient) GetGeofences(r *GetGeofencesRequest, opts ...*cluster.GrainCallOptions) (*GetGeofencesResponse, error) {
+	bytes, err := proto.Marshal(r)
+	if err != nil {
+		return nil, err
+	}
+	reqMsg := &cluster.GrainRequest{MethodIndex: 1, MessageData: bytes}
+	resp, err := g.cluster.Call(g.ID, "Organization", reqMsg, opts...)
+	if err != nil {
+		return nil, err
+	}
+	switch msg := resp.(type) {
+	case *cluster.GrainResponse:
+		result := &GetGeofencesResponse{}
 		err = proto.Unmarshal(msg.MessageData, result)
 		if err != nil {
 			return nil, err
@@ -306,6 +336,30 @@ func (a *OrganizationActor) Receive(ctx actor.Context) {
 			bytes, err := proto.Marshal(r0)
 			if err != nil {
 				plog.Error("OnPosition(Position) proto.Marshal failed", logmod.Error(err))
+				resp := &cluster.GrainErrorResponse{Err: err.Error()}
+				ctx.Respond(resp)
+				return
+			}
+			resp := &cluster.GrainResponse{MessageData: bytes}
+			ctx.Respond(resp)
+		case 1:
+			req := &GetGeofencesRequest{}
+			err := proto.Unmarshal(msg.MessageData, req)
+			if err != nil {
+				plog.Error("GetGeofences(GetGeofencesRequest) proto.Unmarshal failed.", logmod.Error(err))
+				resp := &cluster.GrainErrorResponse{Err: err.Error()}
+				ctx.Respond(resp)
+				return
+			}
+			r0, err := a.inner.GetGeofences(req, ctx)
+			if err != nil {
+				resp := &cluster.GrainErrorResponse{Err: err.Error()}
+				ctx.Respond(resp)
+				return
+			}
+			bytes, err := proto.Marshal(r0)
+			if err != nil {
+				plog.Error("GetGeofences(GetGeofencesRequest) proto.Marshal failed", logmod.Error(err))
 				resp := &cluster.GrainErrorResponse{Err: err.Error()}
 				ctx.Respond(resp)
 				return

@@ -24,5 +24,9 @@ func (o *organizationGrain) OnPosition(position *Position, ctx cluster.GrainCont
 	return &Empty{}, nil
 }
 
+func (o *organizationGrain) GetGeofences(*GetGeofencesRequest, cluster.GrainContext) (*GetGeofencesResponse, error) {
+	return &GetGeofencesResponse{Geofences: []*GeofenceDetails{}}, nil
+}
+
 func (o *organizationGrain) Terminate()                       {}
 func (o *organizationGrain) ReceiveDefault(ctx actor.Context) {}
