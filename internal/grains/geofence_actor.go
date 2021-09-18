@@ -16,7 +16,11 @@ type geofenceActor struct {
 }
 
 func NewGeofenceActor(organizationName string, geofence *data.CircularGeofence, cluster *cluster.Cluster) actor.Actor {
-	return &geofenceActor{cluster: cluster, organizationName: organizationName, geofence: *geofence}
+	return &geofenceActor{
+		cluster:          cluster,
+		organizationName: organizationName,
+		geofence:         *geofence,
+		vehiclesInZone:   make(map[string]struct{})}
 }
 
 func (g *geofenceActor) Receive(ctx actor.Context) {
@@ -33,6 +37,8 @@ func (g *geofenceActor) Receive(ctx actor.Context) {
 				g.cluster.ActorSystem.EventStream.Publish(&Notification{
 					Message: fmt.Sprintf("%s from %s entered the zone %s", msg.VehicleId, g.organizationName, g.geofence.Name),
 				})
+
+				fmt.Printf("%s from %s entered the zone %s\n", msg.VehicleId, g.organizationName, g.geofence.Name)
 			}
 		} else {
 			if vehicleIsInZone {
@@ -42,6 +48,8 @@ func (g *geofenceActor) Receive(ctx actor.Context) {
 				g.cluster.ActorSystem.EventStream.Publish(&Notification{
 					Message: fmt.Sprintf("%s from %s left the zone %s", msg.VehicleId, g.organizationName, g.geofence.Name),
 				})
+
+				fmt.Printf("%s from %s left the zone %s\n", msg.VehicleId, g.organizationName, g.geofence.Name)
 			}
 		}
 

@@ -1,103 +1,103 @@
 package data
 
 type Organization struct {
-	id        string
-	name      string
-	geofences []*CircularGeofence
+	Id        string
+	Name      string
+	Geofences []*CircularGeofence
 }
 
 var AllOrganizations = map[string]*Organization{
 	"0006": {
-		id:   "006",
-		name: "Oy Pohjolan Liikenne Ab",
+		Id:   "006",
+		Name: "Oy Pohjolan Liikenne Ab",
 	},
 	"0012": {
-		id:        "0012",
-		name:      "Helsingin Bussiliikenne Oy",
-		geofences: []*CircularGeofence{Airport, KallioDistrict, RailwaySquare},
+		Id:        "0012",
+		Name:      "Helsingin Bussiliikenne Oy",
+		Geofences: []*CircularGeofence{Airport, KallioDistrict, RailwaySquare},
 	},
 	"0017": {
-		id:        "0017",
-		name:      "Tammelundin Liikenne Oy",
-		geofences: []*CircularGeofence{LaajasaloIsland},
+		Id:        "0017",
+		Name:      "Tammelundin Liikenne Oy",
+		Geofences: []*CircularGeofence{LaajasaloIsland},
 	},
 	"0018": {
-		id:        "0018",
-		name:      "Pohjolan Kaupunkiliikenne Oy",
-		geofences: []*CircularGeofence{KallioDistrict, LauttasaariIsland, RailwaySquare},
+		Id:        "0018",
+		Name:      "Pohjolan Kaupunkiliikenne Oy",
+		Geofences: []*CircularGeofence{KallioDistrict, LauttasaariIsland, RailwaySquare},
 	},
 	"0020": {
-		id:   "0020",
-		name: "Bus Travel Åbergin Linja Oy",
+		Id:   "0020",
+		Name: "Bus Travel Åbergin Linja Oy",
 	},
 	"0021": {
-		id:   "0021",
-		name: "Bus Travel Oy Reissu Ruoti",
+		Id:   "0021",
+		Name: "Bus Travel Oy Reissu Ruoti",
 	},
 	"0022": {
-		id:        "0022",
-		name:      "Nobina Finland Oy",
-		geofences: []*CircularGeofence{Airport, KallioDistrict, LaajasaloIsland},
+		Id:        "0022",
+		Name:      "Nobina Finland Oy",
+		Geofences: []*CircularGeofence{Airport, KallioDistrict, LaajasaloIsland},
 	},
 	"0030": {
-		id:        "0030",
-		name:      "Savonlinja Oy",
-		geofences: []*CircularGeofence{Airport, Downtown},
+		Id:        "0030",
+		Name:      "Savonlinja Oy",
+		Geofences: []*CircularGeofence{Airport, Downtown},
 	},
 	"0036": {
-		id:   "0036",
-		name: "Nurmijärven Linja Oy",
+		Id:   "0036",
+		Name: "Nurmijärven Linja Oy",
 	},
 	"0040": {
-		id:   "0040",
-		name: "HKL-Raitioliikenne",
+		Id:   "0040",
+		Name: "HKL-Raitioliikenne",
 	},
 	"0045": {
-		id:   "0045",
-		name: "Transdev Vantaa Oy",
+		Id:   "0045",
+		Name: "Transdev Vantaa Oy",
 	},
 	"0047": {
-		id:   "0047",
-		name: "Taksikuljetus Oy",
+		Id:   "0047",
+		Name: "Taksikuljetus Oy",
 	},
 	"0050": {
-		id:   "0050",
-		name: "HKL-Metroliikenne",
+		Id:   "0050",
+		Name: "HKL-Metroliikenne",
 	},
 	"0051": {
-		id:   "0051",
-		name: "Korsisaari Oy",
+		Id:   "0051",
+		Name: "Korsisaari Oy",
 	},
 	"0054": {
-		id:   "0054",
-		name: "V-S Bussipalvelut Oy",
+		Id:   "0054",
+		Name: "V-S Bussipalvelut Oy",
 	},
 	"0055": {
-		id:   "0055",
-		name: "Transdev Helsinki Oy",
+		Id:   "0055",
+		Name: "Transdev Helsinki Oy",
 	},
 	"0058": {
-		id:   "0058",
-		name: "Koillisen Liikennepalvelut Oy",
+		Id:   "0058",
+		Name: "Koillisen Liikennepalvelut Oy",
 	},
 	"0060": {
-		id:   "0060",
-		name: "Suomenlinnan Liikenne Oy",
+		Id:   "0060",
+		Name: "Suomenlinnan Liikenne Oy",
 	},
 	"0059": {
-		id:   "0059",
-		name: "Tilausliikenne Nikkanen Oy",
+		Id:   "0059",
+		Name: "Tilausliikenne Nikkanen Oy",
 	},
 	"0089": {
-		id:   "0089",
-		name: "Metropolia",
+		Id:   "0089",
+		Name: "Metropolia",
 	},
 	"0090": {
-		id:   "0090",
-		name: "VR Oy",
+		Id:   "0090",
+		Name: "VR Oy",
 	},
 	"0195": {
-		id:   "0195",
-		name: "Siuntio1",
+		Id:   "0195",
+		Name: "Siuntio1",
 	},
 }

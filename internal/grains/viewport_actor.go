@@ -32,6 +32,7 @@ func (v *viewportActor) Receive(ctx actor.Context) {
 		v.batch = make([]*Position, 0, BatchSize)
 
 		v.subscription = ctx.ActorSystem().EventStream.Subscribe(func(event interface{}) {
+			// do not modify state in the callback to avoid concurrency issues, let the message pass through mailbox
 			switch event.(type) {
 			case *Position:
 				ctx.Send(ctx.Self(), msg)
