@@ -7,10 +7,10 @@ import (
 	"os/signal"
 	"time"
 
-	httpapi "github.com/marcinbudny/realtimemap-go/internal/api"
 	"github.com/marcinbudny/realtimemap-go/internal/grains"
 	"github.com/marcinbudny/realtimemap-go/internal/ingress"
 	"github.com/marcinbudny/realtimemap-go/internal/protocluster"
+	"github.com/marcinbudny/realtimemap-go/internal/server"
 )
 
 func main() {
@@ -20,8 +20,8 @@ func main() {
 	cluster := protocluster.StartNode()
 	time.Sleep(2 * time.Second)
 
-	api := httpapi.NewHttpApi(cluster.ActorSystem, ctx)
-	httpDone := api.ListenAndServe()
+	server := server.NewHttpServer(cluster, ctx)
+	serverDone := server.ListenAndServe()
 
 	ingressDone := ingress.ConsumeVehicleEvents(func(event *ingress.Event) {
 		position := MapToPosition(event)
@@ -32,9 +32,8 @@ func main() {
 	}, ctx)
 
 	<-ingressDone
-	<-httpDone
-	// cluster.ActorSystem.EventStream.Unsubscribe(subscription)
-	// close(batchingChan)
+	<-serverDone
+
 	cluster.Shutdown(true)
 }
 
@@ -75,15 +74,3 @@ func MapToPosition(e *ingress.Event) *grains.Position {
 		Speed:     *payload.Speed,
 	}
 }
-
-// func MapToHubPosition(p *grains.Position) *contract.Position {
-// 	return &contract.Position{
-// 		VehicleId: p.VehicleId,
-// 		OrgId:     p.OrgId,
-// 		Latitude:  p.Latitude,
-// 		Longitude: p.Longitude,
-// 		Heading:   p.Heading,
-// 		Timestamp: p.Timestamp,
-// 		Speed:     p.Speed,
-// 	}
-// }

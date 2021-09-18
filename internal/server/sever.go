@@ -1,4 +1,4 @@
-package api
+package server
 
 import (
 	"context"
@@ -6,38 +6,39 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/AsynkronIT/protoactor-go/actor"
+	"github.com/AsynkronIT/protoactor-go/cluster"
+	"github.com/labstack/echo"
 )
 
-type HttpApi struct {
+type Server struct {
 	Hub    *AppHub
 	router *http.ServeMux
 	ctx    context.Context
 }
 
-func NewHttpApi(actorSystem *actor.ActorSystem, ctx context.Context) *HttpApi {
+func NewHttpServer(cluster *cluster.Cluster, ctx context.Context) *Server {
 	router := http.NewServeMux()
-	hub := serveHub(router, actorSystem, ctx)
-	serveStaticFiles(router)
+	hub := serveHub(router, cluster.ActorSystem, ctx)
 
-	return &HttpApi{
+	echo := echo.New()
+	router.Handle("/", echo)
+
+	serveApi(echo, cluster)
+	serveStaticFiles(echo)
+
+	return &Server{
 		Hub:    hub,
 		router: router,
 		ctx:    ctx,
 	}
 }
 
-func (api *HttpApi) ListenAndServe() <-chan bool {
+func (s *Server) ListenAndServe() <-chan bool {
 	done := make(chan bool)
 
-	go listenAndServe(api.router, done, api.ctx)
+	go listenAndServe(s.router, done, s.ctx)
 
 	return done
-}
-
-func serveStaticFiles(router *http.ServeMux) {
-	fs := http.FileServer(http.Dir("./public"))
-	router.Handle("/", fs)
 }
 
 func listenAndServe(router *http.ServeMux, done chan<- bool, ctx context.Context) {
