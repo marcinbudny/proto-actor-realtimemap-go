@@ -54,6 +54,22 @@ func serveApi(e *echo.Echo, cluster *cluster.Cluster) {
 			return c.String(http.StatusNotFound, fmt.Sprintf("Organization %s not found", id))
 		}
 	})
+
+	e.GET("/api/trail/:id", func(c echo.Context) error {
+		var id string
+		if err := echo.PathParamsBinder(c).String("id", &id).BindError(); err != nil {
+			c.String(http.StatusBadRequest, "Unable to get id from the request")
+		}
+
+		vehClient := grains.GetVehicleGrainClient(cluster, id)
+
+		if positions, err := vehClient.GetPositionsHistory(&grains.GetPositionsHistoryRequest{}); err == nil {
+
+			return c.JSON(http.StatusOK, positions)
+		} else {
+			return c.String(http.StatusInternalServerError, fmt.Sprintf("Unable to call grain for vehicle %s: %v", id, err))
+		}
+	})
 }
 
 func mapOrganization(org *data.Organization, grainResponse *grains.GetGeofencesResponse) *contract.OrganizationDetails {

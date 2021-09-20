@@ -14,8 +14,6 @@ message Position {
     double speed = 8;
 }
 
-message GetPositionsHistoryRequest { }
-
 message PositionBatch {
     repeated Position positions = 1;
 }
@@ -55,6 +53,8 @@ message GetGeofencesResponse {
   repeated GeofenceDetails geofences = 1;
 }
 
+message GetPositionsHistoryRequest {
+}
 
 service Vehicle {
     rpc OnPosition(Position) returns (Empty) {}

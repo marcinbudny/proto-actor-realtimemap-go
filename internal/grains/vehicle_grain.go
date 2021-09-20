@@ -5,7 +5,7 @@ import (
 	"github.com/AsynkronIT/protoactor-go/cluster"
 )
 
-const MaxPositionHistory = 10
+const MaxPositionHistory = 200
 
 type vehicleGrain struct {
 	id              string
