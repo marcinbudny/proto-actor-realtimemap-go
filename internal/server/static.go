@@ -1,7 +1,7 @@
 package server
 
 import (
-	"github.com/labstack/echo"
+	echo "github.com/labstack/echo/v4"
 )
 
 func serveStaticFiles(echo *echo.Echo) {

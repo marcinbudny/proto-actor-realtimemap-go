@@ -1,6 +1,9 @@
 package grains
 
 import (
+	"fmt"
+	"time"
+
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/cluster"
 	"github.com/marcinbudny/realtimemap-go/internal/data"
@@ -56,8 +59,30 @@ func (o *organizationGrain) OnPosition(position *Position, ctx cluster.GrainCont
 	return &Empty{}, nil
 }
 
-func (o *organizationGrain) GetGeofences(*GetGeofencesRequest, cluster.GrainContext) (*GetGeofencesResponse, error) {
-	return &GetGeofencesResponse{Geofences: []*GeofenceDetails{}}, nil
+func (o *organizationGrain) GetGeofences(_ *GetGeofencesRequest, ctx cluster.GrainContext) (*GetGeofencesResponse, error) {
+
+	futures := make([]*actor.Future, 0, len(ctx.Children()))
+
+	for _, child := range ctx.Children() {
+		future := ctx.RequestFuture(child, &GetGeofencesRequest{OrgId: o.id}, 5*time.Second)
+		futures = append(futures, future)
+	}
+
+	geofences := make([]*GeofenceDetails, 0, len(ctx.Children()))
+
+	for _, future := range futures {
+		if res, err := future.Result(); err == nil {
+			if geofence, ok := res.(*GeofenceDetails); ok {
+				geofences = append(geofences, geofence)
+			} else {
+				fmt.Println("WTF did you send me")
+			}
+		} else {
+			return nil, err
+		}
+	}
+
+	return &GetGeofencesResponse{Geofences: geofences}, nil
 }
 
 func (o *organizationGrain) Terminate()                       {}

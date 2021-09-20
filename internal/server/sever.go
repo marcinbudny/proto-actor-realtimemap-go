@@ -7,7 +7,7 @@ import (
 	"time"
 
 	"github.com/AsynkronIT/protoactor-go/cluster"
-	"github.com/labstack/echo"
+	echo "github.com/labstack/echo/v4"
 )
 
 type Server struct {
