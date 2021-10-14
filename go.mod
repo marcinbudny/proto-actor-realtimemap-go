@@ -3,7 +3,7 @@ module github.com/marcinbudny/realtimemap-go
 go 1.17
 
 require (
-	github.com/AsynkronIT/protoactor-go v0.0.0-20210901041048-df2fc305778c
+	github.com/AsynkronIT/protoactor-go v0.0.0-20211013135059-a4a5f6886697
 	github.com/eclipse/paho.mqtt.golang v1.3.5
 	github.com/go-kit/log v0.1.0
 	github.com/gogo/protobuf v1.3.2
@@ -30,6 +30,7 @@ require (
 	github.com/mattn/go-colorable v0.1.8 // indirect
 	github.com/mattn/go-isatty v0.0.12 // indirect
 	github.com/orcaman/concurrent-map v0.0.0-20190107190726-7ed82d9cb717 // indirect
+	github.com/rs/cors v1.8.0 // indirect
 	github.com/teivah/onecontext v1.3.0 // indirect
 	github.com/valyala/bytebufferpool v1.0.0 // indirect
 	github.com/valyala/fasttemplate v1.2.1 // indirect
@@ -42,7 +43,7 @@ require (
 	golang.org/x/sys v0.0.0-20210603081109-ebe580a85c40 // indirect
 	golang.org/x/text v0.3.6 // indirect
 	google.golang.org/genproto v0.0.0-20210602131652-f16073e35f0c // indirect
-	google.golang.org/grpc v1.40.0 // indirect
+	google.golang.org/grpc v1.41.0 // indirect
 	google.golang.org/protobuf v1.27.1 // indirect
 	nhooyr.io/websocket v1.8.7 // indirect
 )

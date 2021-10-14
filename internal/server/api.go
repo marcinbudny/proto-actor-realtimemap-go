@@ -65,41 +65,9 @@ func serveApi(e *echo.Echo, cluster *cluster.Cluster) {
 
 		if positions, err := vehClient.GetPositionsHistory(&grains.GetPositionsHistoryRequest{}); err == nil {
 
-			return c.JSON(http.StatusOK, positions)
+			return c.JSON(http.StatusOK, mapPositionBatch(positions))
 		} else {
 			return c.String(http.StatusInternalServerError, fmt.Sprintf("Unable to call grain for vehicle %s: %v", id, err))
 		}
 	})
-}
-
-func mapOrganization(org *data.Organization, grainResponse *grains.GetGeofencesResponse) *contract.OrganizationDetails {
-	geofences := make([]*contract.Geofence, 0, len(grainResponse.Geofences))
-
-	for _, grainGeofence := range grainResponse.Geofences {
-		geofences = append(geofences, mapGeofence(grainGeofence))
-	}
-
-	sort.Slice(geofences, func(i, j int) bool {
-		return geofences[i].Name < geofences[j].Name
-	})
-
-	return &contract.OrganizationDetails{
-		Id:        org.Id,
-		Name:      org.Name,
-		Geofences: geofences,
-	}
-}
-
-func mapGeofence(grainGeofence *grains.GeofenceDetails) *contract.Geofence {
-	vehicles := make([]string, len(grainGeofence.VehiclesInZone))
-	copy(vehicles, grainGeofence.VehiclesInZone)
-	sort.Strings(vehicles)
-
-	return &contract.Geofence{
-		Name:           grainGeofence.Name,
-		Longitude:      grainGeofence.Longitude,
-		Latitude:       grainGeofence.Latitude,
-		RadiusInMeters: grainGeofence.RadiusInMeters,
-		VehiclesInZone: vehicles,
-	}
 }

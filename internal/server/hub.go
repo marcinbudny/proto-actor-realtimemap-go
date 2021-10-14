@@ -2,7 +2,6 @@ package server
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	"net/http"
 	"os"
@@ -29,7 +28,6 @@ func (h *AppHub) Initialize(ctx signalr.HubContext) {
 
 func (h *AppHub) OnConnected(connectionID string) {
 	fmt.Printf("%s connected to hub\n", connectionID)
-	h.Clients().Caller().Send("event", "{\"hello\": \"world\"}")
 }
 
 func (h *AppHub) OnDisconnected(connectionID string) {
@@ -41,9 +39,8 @@ func (h *AppHub) OnDisconnected(connectionID string) {
 }
 
 func (h *AppHub) SendPositionBatch(connectionID string, batch *grains.PositionBatch) {
-	serialized, _ := json.Marshal(batch)
 	if h.initialized {
-		h.Clients().Client(connectionID).Send("positions", string(serialized))
+		h.Clients().Client(connectionID).Send("positions", mapPositionBatch(batch))
 	}
 }
 
@@ -60,7 +57,7 @@ func (h *AppHub) SetViewport(swLng float64, swLat float64, neLng float64, neLat 
 		viewportPID, _ = item.(*actor.PID)
 	} else {
 		props := actor.PropsFromProducer(func() actor.Actor {
-			return grains.NewViewportActor(h.SendPositionBatch, h.SendNotification)
+			return grains.NewViewportActor(h.ConnectionID(), h.SendPositionBatch, h.SendNotification)
 		})
 		// spawn named so that we don't get multiple viewports for same connection id in the case of concurrency issues
 		viewportPID, _ = h.actorSystem.Root.SpawnNamed(props, h.ConnectionID())

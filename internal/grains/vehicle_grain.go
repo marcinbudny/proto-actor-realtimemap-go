@@ -34,9 +34,7 @@ func (v *vehicleGrain) OnPosition(position *Position, ctx cluster.GrainContext) 
 	orgClient := GetOrganizationGrainClient(v.cluster, position.OrgId)
 	orgClient.OnPosition(position)
 
-	// the Go version of proto.actor does not support broadcasting among cluster members yet
-	// TODO: fix this code once it does
-	v.cluster.ActorSystem.EventStream.Publish(position)
+	v.cluster.MemberList.BroadcastEvent(position)
 
 	return &Empty{}, nil
 }

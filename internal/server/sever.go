@@ -8,12 +8,13 @@ import (
 
 	"github.com/AsynkronIT/protoactor-go/cluster"
 	echo "github.com/labstack/echo/v4"
+	"github.com/rs/cors"
 )
 
 type Server struct {
-	Hub    *AppHub
-	router *http.ServeMux
-	ctx    context.Context
+	Hub     *AppHub
+	handler http.Handler
+	ctx     context.Context
 }
 
 func NewHttpServer(cluster *cluster.Cluster, ctx context.Context) *Server {
@@ -24,26 +25,41 @@ func NewHttpServer(cluster *cluster.Cluster, ctx context.Context) *Server {
 	router.Handle("/", echo)
 
 	serveApi(echo, cluster)
-	serveStaticFiles(echo)
+
+	handler := cors.New(cors.Options{
+
+		AllowedOrigins: []string{"http://localhost:8080"},
+		AllowedMethods: []string{
+			http.MethodHead,
+			http.MethodGet,
+			http.MethodPost,
+			http.MethodPut,
+			http.MethodPatch,
+			http.MethodDelete,
+		},
+		AllowedHeaders:   []string{"*"},
+		AllowCredentials: true,
+		AllowOriginFunc:  func(origin string) bool { return true },
+	}).Handler(router)
 
 	return &Server{
-		Hub:    hub,
-		router: router,
-		ctx:    ctx,
+		Hub:     hub,
+		handler: handler,
+		ctx:     ctx,
 	}
 }
 
 func (s *Server) ListenAndServe() <-chan bool {
 	done := make(chan bool)
 
-	go listenAndServe(s.router, done, s.ctx)
+	go listenAndServe(s.handler, done, s.ctx)
 
 	return done
 }
 
-func listenAndServe(router *http.ServeMux, done chan<- bool, ctx context.Context) {
-	address := "localhost:8080"
-	server := &http.Server{Addr: address, Handler: router}
+func listenAndServe(handler http.Handler, done chan<- bool, ctx context.Context) {
+	address := "localhost:5000"
+	server := &http.Server{Addr: address, Handler: handler}
 
 	go func() {
 		fmt.Printf("Http server starting to listen at http://%s\n", address)

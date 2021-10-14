@@ -21,8 +21,12 @@ type viewportActor struct {
 	subscription     *eventstream.Subscription
 }
 
-func NewViewportActor(sendPositions SendPositions, sendNotification SendNotification) *viewportActor {
-	return &viewportActor{sendPositions: sendPositions, sendNotification: sendNotification}
+func NewViewportActor(connectionID string, sendPositions SendPositions, sendNotification SendNotification) *viewportActor {
+	return &viewportActor{
+		connectionID:     connectionID,
+		sendPositions:    sendPositions,
+		sendNotification: sendNotification,
+	}
 }
 
 func (v *viewportActor) Receive(ctx actor.Context) {
@@ -35,9 +39,9 @@ func (v *viewportActor) Receive(ctx actor.Context) {
 			// do not modify state in the callback to avoid concurrency issues, let the message pass through mailbox
 			switch event.(type) {
 			case *Position:
-				ctx.Send(ctx.Self(), msg)
+				ctx.Send(ctx.Self(), event)
 			case *Notification:
-				ctx.Send(ctx.Self(), msg)
+				ctx.Send(ctx.Self(), event)
 			}
 		})
 
