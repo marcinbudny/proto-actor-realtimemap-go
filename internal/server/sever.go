@@ -28,18 +28,13 @@ func NewHttpServer(cluster *cluster.Cluster, ctx context.Context) *Server {
 
 	handler := cors.New(cors.Options{
 
-		AllowedOrigins: []string{"http://localhost:8080"},
+		AllowedOrigins: []string{"http://localhost:8080", "http://localhost:5000"},
 		AllowedMethods: []string{
-			http.MethodHead,
 			http.MethodGet,
 			http.MethodPost,
-			http.MethodPut,
-			http.MethodPatch,
-			http.MethodDelete,
 		},
 		AllowedHeaders:   []string{"*"},
 		AllowCredentials: true,
-		AllowOriginFunc:  func(origin string) bool { return true },
 	}).Handler(router)
 
 	return &Server{
