@@ -32,7 +32,7 @@ func (h *AppHub) OnConnected(connectionID string) {
 
 func (h *AppHub) OnDisconnected(connectionID string) {
 	fmt.Printf("%s disconnected from hub\n", connectionID)
-	if item, loaded := h.Items().LoadAndDelete("viewport"); loaded {
+	if item, loaded := h.Items().LoadAndDelete("user"); loaded {
 		viewportPID, _ := item.(*actor.PID)
 		h.actorSystem.Root.Stop(viewportPID)
 	}
@@ -51,20 +51,20 @@ func (h *AppHub) SendNotification(connectionID string, message string) {
 }
 
 func (h *AppHub) SetViewport(swLng float64, swLat float64, neLng float64, neLat float64) {
-	var viewportPID *actor.PID
+	var userPID *actor.PID
 
 	if item, loaded := h.Items().Load(h.ConnectionID()); loaded {
-		viewportPID, _ = item.(*actor.PID)
+		userPID, _ = item.(*actor.PID)
 	} else {
 		props := actor.PropsFromProducer(func() actor.Actor {
-			return grains.NewViewportActor(h.ConnectionID(), h.SendPositionBatch, h.SendNotification)
+			return grains.NewUserActor(h.ConnectionID(), h.SendPositionBatch, h.SendNotification)
 		})
 		// spawn named so that we don't get multiple viewports for same connection id in the case of concurrency issues
-		viewportPID, _ = h.actorSystem.Root.SpawnNamed(props, h.ConnectionID())
-		h.Items().Store("viewport", viewportPID)
+		userPID, _ = h.actorSystem.Root.SpawnNamed(props, h.ConnectionID())
+		h.Items().Store("user", userPID)
 	}
 
-	h.actorSystem.Root.Send(viewportPID, &grains.UpdateViewport{
+	h.actorSystem.Root.Send(userPID, &grains.UpdateViewport{
 		Viewport: &grains.Viewport{
 			SouthWest: &grains.GeoPoint{Longitude: swLng, Latitude: swLat},
 			NorthEast: &grains.GeoPoint{Longitude: neLng, Latitude: neLat},
