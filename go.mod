@@ -9,7 +9,7 @@ require (
 	github.com/gogo/protobuf v1.3.2
 	github.com/kellydunn/golang-geo v0.7.0
 	github.com/labstack/echo/v4 v4.6.1
-	github.com/philippseith/signalr v0.3.0
+	github.com/philippseith/signalr v0.4.1
 )
 
 require (

@@ -77,6 +77,7 @@ func serveHub(router *http.ServeMux, actorSystem *actor.ActorSystem, ctx context
 
 	singnalrServer, _ := signalr.NewServer(ctx,
 		signalr.UseHub(hub),
+		signalr.AllowOriginPatterns([]string{"localhost:8080"}),
 		signalr.Logger(kitlog.NewLogfmtLogger(os.Stdout), false))
 
 	singnalrServer.MapHTTP(router, "/events")
