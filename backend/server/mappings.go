@@ -4,8 +4,8 @@ import (
 	"sort"
 
 	"realtimemap-go/backend/contract"
-	"realtimemap-go/backend/internal/data"
-	"realtimemap-go/backend/internal/grains"
+	"realtimemap-go/backend/data"
+	"realtimemap-go/backend/grains"
 )
 
 func mapPositionBatch(batch *grains.PositionBatch) *contract.PositionBatch {

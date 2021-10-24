@@ -1,7 +1,7 @@
 package protocluster
 
 import (
-	"realtimemap-go/backend/internal/grains"
+	"realtimemap-go/backend/grains"
 
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/cluster"

@@ -3,9 +3,10 @@ package grains
 import (
 	"fmt"
 
+	"realtimemap-go/backend/data"
+
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/cluster"
-	"realtimemap-go/backend/internal/data"
 )
 
 type geofenceActor struct {

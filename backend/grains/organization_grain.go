@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"realtimemap-go/backend/internal/data"
+	"realtimemap-go/backend/data"
 
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/cluster"

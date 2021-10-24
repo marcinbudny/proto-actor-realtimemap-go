@@ -8,8 +8,8 @@ import (
 	echo "github.com/labstack/echo/v4"
 
 	"realtimemap-go/backend/contract"
-	"realtimemap-go/backend/internal/data"
-	"realtimemap-go/backend/internal/grains"
+	"realtimemap-go/backend/data"
+	"realtimemap-go/backend/grains"
 
 	"github.com/AsynkronIT/protoactor-go/cluster"
 )

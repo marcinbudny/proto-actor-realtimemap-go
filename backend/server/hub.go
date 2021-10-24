@@ -6,7 +6,7 @@ import (
 	"net/http"
 	"os"
 
-	"realtimemap-go/backend/internal/grains"
+	"realtimemap-go/backend/grains"
 
 	"github.com/AsynkronIT/protoactor-go/actor"
 	kitlog "github.com/go-kit/log"

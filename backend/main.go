@@ -7,10 +7,10 @@ import (
 	"os/signal"
 	"time"
 
-	"realtimemap-go/backend/internal/grains"
-	"realtimemap-go/backend/internal/ingress"
-	"realtimemap-go/backend/internal/protocluster"
-	"realtimemap-go/backend/internal/server"
+	"realtimemap-go/backend/grains"
+	"realtimemap-go/backend/ingress"
+	"realtimemap-go/backend/protocluster"
+	"realtimemap-go/backend/server"
 )
 
 func main() {
