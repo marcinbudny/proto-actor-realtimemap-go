@@ -24,16 +24,17 @@ Configure Mapbox:
 1. Copy a token from: main dashbaord / access tokens / default public token.
 1. Paste the token in `frontend\src\mapboxConfig.ts`.
 
+Start Backend:
+```
+cd backend
+go run main.go
+```
+
 Start frontend:
 ```
 cd frontend
 npm install
 npm run serve
-```
-
-Start Backend:
-```
-go run main.go
 ```
 
 The app is available on [localhost:8080](http://localhost:8080/).

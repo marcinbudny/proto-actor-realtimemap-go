@@ -7,10 +7,11 @@ import (
 
 	echo "github.com/labstack/echo/v4"
 
+	"realtimemap-go/backend/contract"
+	"realtimemap-go/backend/internal/data"
+	"realtimemap-go/backend/internal/grains"
+
 	"github.com/AsynkronIT/protoactor-go/cluster"
-	"github.com/marcinbudny/realtimemap-go/contract"
-	"github.com/marcinbudny/realtimemap-go/internal/data"
-	"github.com/marcinbudny/realtimemap-go/internal/grains"
 )
 
 func serveApi(e *echo.Echo, cluster *cluster.Cluster) {

@@ -3,9 +3,9 @@ package server
 import (
 	"sort"
 
-	"github.com/marcinbudny/realtimemap-go/contract"
-	"github.com/marcinbudny/realtimemap-go/internal/data"
-	"github.com/marcinbudny/realtimemap-go/internal/grains"
+	"realtimemap-go/backend/contract"
+	"realtimemap-go/backend/internal/data"
+	"realtimemap-go/backend/internal/grains"
 )
 
 func mapPositionBatch(batch *grains.PositionBatch) *contract.PositionBatch {

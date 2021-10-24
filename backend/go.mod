@@ -1,4 +1,4 @@
-module github.com/marcinbudny/realtimemap-go
+module realtimemap-go/backend
 
 go 1.17
 

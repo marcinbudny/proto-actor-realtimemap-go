@@ -1,11 +1,12 @@
 package protocluster
 
 import (
+	"realtimemap-go/backend/internal/grains"
+
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/cluster"
 	"github.com/AsynkronIT/protoactor-go/cluster/automanaged"
 	"github.com/AsynkronIT/protoactor-go/remote"
-	"github.com/marcinbudny/realtimemap-go/internal/grains"
 )
 
 func StartNode() *cluster.Cluster {

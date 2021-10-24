@@ -6,9 +6,10 @@ import (
 	"net/http"
 	"os"
 
+	"realtimemap-go/backend/internal/grains"
+
 	"github.com/AsynkronIT/protoactor-go/actor"
 	kitlog "github.com/go-kit/log"
-	"github.com/marcinbudny/realtimemap-go/internal/grains"
 	"github.com/philippseith/signalr"
 )
 

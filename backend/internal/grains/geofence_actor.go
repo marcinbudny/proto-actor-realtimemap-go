@@ -5,7 +5,7 @@ import (
 
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/cluster"
-	"github.com/marcinbudny/realtimemap-go/internal/data"
+	"realtimemap-go/backend/internal/data"
 )
 
 type geofenceActor struct {

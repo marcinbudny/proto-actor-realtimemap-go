@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"time"
 
+	"realtimemap-go/backend/internal/data"
+
 	"github.com/AsynkronIT/protoactor-go/actor"
 	"github.com/AsynkronIT/protoactor-go/cluster"
-	"github.com/marcinbudny/realtimemap-go/internal/data"
 )
 
 type organizationGrain struct {
